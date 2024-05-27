@@ -1,20 +1,23 @@
 import "./HomePage.css";
 
 import { useState } from "react";
-
 import { TbCircleDashed } from "react-icons/tb";
 import { BiCommentDetail } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsEmojiSmile, BsFilter, BsSearch } from "react-icons/bs";
+import { ImAttachment } from "react-icons/im";
 import { BsThreeDotsVertical } from "react-icons/bs";
+
 import ChatCard from "./ChatCard/ChatCard";
 import MessageCard from "./MessageCard/MessageCard";
-import { ImAttachment } from "react-icons/im";
+
+import Profile from "./Profile/Profile";
+
 export default function HomePage() {
   const [queries, setQueries] = useState(null);
   const [currentChat, setCurrentChat] = useState(null);
   const [content, setContent] = useState("");
-
+  const [isProfile, setIsProfile] = useState(false);
   const handleClickOnCard = () => {
     setCurrentChat(true);
   };
@@ -22,57 +25,83 @@ export default function HomePage() {
   const handleSearch = () => {};
 
   const handleCreateNewMessage = () => {};
+  const handleNavigate = () => {
+    setIsProfile(true);
+  };
+
+  const handleCloseOpenProfile = () => {
+    setIsProfile(false);
+  };
   return (
     <>
       <div className="relative ">
         <div className=" w-full bg-[#00a884] py-14 "></div>
         <div className="absolute left-[2vw]  top-[5vh] flex h-[90vh] w-[96vw] bg-[#f0f2f5]">
           <div className="left h-full w-[30%] bg-[#e8e9ec]">
-            <div className="w-full">
-              <div className="flex  items-center justify-between  p-3  ">
-                <div className="flex items-center  space-x-3  ">
-                  <img
-                    className="cursor-pointer” alt= h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGljfGVufDB8fDB8fHww"
-                  />
-                  <p>username</p>
-                </div>
-                <div className="flex space-x-3 text-2xl  ">
-                  <TbCircleDashed />
-                  <BiCommentDetail />
-                </div>
+            {/* profile */}
+            {isProfile && (
+              <div className="h-full w-full">
+                <Profile handleCloseOpenProfile={handleCloseOpenProfile} />
               </div>
-              {/* ,,,,,,,,,,,, */}
-              <div className="relative flex items-center justify-center bg-white  px-3 py-4">
-                <input
-                  className=" w-[93%]  rounded-md  border-none   bg-slate-200   py-2 pl-9  outline-none   "
-                  type="text"
-                  placeholder="Search or start new chat"
-                  onChange={(e) => {
-                    setQueries(e.target.value);
-                    handleSearch(e.target.value);
-                  }}
-                  value={queries}
-                />
-                <AiOutlineSearch className="absolute left-5  top-7" />
-                <div>
-                  <BsFilter className="ml-4 text-3xl" />
-                </div>
-              </div>
-              {/* all users */}
+            )}
 
-              <div className="h-[72vh] overflow-y-scroll  bg-white px-3 ">
-                {queries &&
-                  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((item, index) => {
-                    return (
-                      <div key={index} className="" onClick={handleClickOnCard}>
-                        <hr />
-                        <ChatCard />
-                      </div>
-                    );
-                  })}
+            {!isProfile && (
+              <div className="w-full">
+                {/* home */}
+
+                <div className="flex  items-center justify-between  p-3  ">
+                  <div
+                    onClick={handleNavigate}
+                    className="flex items-center  space-x-3  "
+                  >
+                    <img
+                      className="cursor-pointer” alt= h-10 w-10 rounded-full"
+                      src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGljfGVufDB8fDB8fHww"
+                    />
+                    <p>username</p>
+                  </div>
+                  <div className="flex space-x-3 text-2xl  ">
+                    <TbCircleDashed />
+                    <BiCommentDetail />
+                  </div>
+                </div>
+
+                {/* ,,,,,,,,,,,, */}
+                <div className="relative flex items-center justify-center bg-white  px-3 py-4">
+                  <input
+                    className=" w-[93%]  rounded-md  border-none   bg-slate-200   py-2 pl-9  outline-none   "
+                    type="text"
+                    placeholder="Search or start new chat"
+                    onChange={(e) => {
+                      setQueries(e.target.value);
+                      handleSearch(e.target.value);
+                    }}
+                    value={queries}
+                  />
+                  <AiOutlineSearch className="absolute left-5  top-7" />
+                  <div>
+                    <BsFilter className="ml-4 text-3xl" />
+                  </div>
+                </div>
+                {/* all users */}
+
+                <div className="h-[72vh] overflow-y-scroll  bg-white px-3 ">
+                  {queries &&
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className=""
+                          onClick={handleClickOnCard}
+                        >
+                          <hr />
+                          <ChatCard />
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           {/* default whats up page */}
 
