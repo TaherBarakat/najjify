@@ -5,11 +5,13 @@ import {
   REQ_USER,
   SEARCH_USER,
   UPDATE_USER,
+  LOGOUT,
 } from "./ActionType";
 
 export const register = (data) => async (dispatch) => {
   try {
-    const res = await fetch(`${BASE_API_URL}/auth/signup`, {
+    console.log(data);
+    const res = await fetch(`${BASE_API_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,6 +19,11 @@ export const register = (data) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const resData = await res.json();
+
+    if (resData.jwt) {
+      localStorage.setItem("token", resData.jwt);
+    }
+
     console.log("register", resData);
     dispatch({ type: REGISTER, payload: resData });
   } catch (error) {
@@ -34,6 +41,11 @@ export const login = (data) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const resData = await res.json();
+
+    if (resData.jwt) {
+      localStorage.setItem("token", resData.jwt);
+    }
+
     console.log("login", resData);
     dispatch({ type: LOGIN, payload: resData });
   } catch (error) {
@@ -93,4 +105,11 @@ export const updateUser = (data) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const logoutAction = () => async (dispatch) => {
+  console.log("logout");
+  localStorage.removeItem("token");
+  dispatch({ type: LOGOUT, payload: null });
+  dispatch({ type: REQ_USER, payload: null });
 };

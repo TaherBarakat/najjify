@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TbCircleDashed } from "react-icons/tb";
 import { BiCommentDetail } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -15,6 +15,9 @@ import ChatCard from "./ChatCard/ChatCard";
 import MessageCard from "./MessageCard/MessageCard";
 
 import Profile from "./Profile/Profile";
+import { useDispatch, useSelector } from "react-redux";
+import { currentUser, logoutAction } from "../Redux/Auth/Action";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const [queries, setQueries] = useState(null);
@@ -22,6 +25,12 @@ export default function HomePage() {
   const [content, setContent] = useState("");
   const [isProfile, setIsProfile] = useState(false);
   const [isGroup, setIsGroup] = useState(false);
+
+  const { auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
   const handleClickOnCard = () => {
     setCurrentChat(true);
   };
@@ -40,7 +49,18 @@ export default function HomePage() {
   const handleCreateGroup = () => {
     setIsGroup(true);
   };
+  useEffect(() => {
+    if (token) dispatch(currentUser(token));
+  }, [token]);
 
+  const handleLogout = () => {
+    dispatch(logoutAction());
+  };
+  // useEffect(() => {
+  //   if (auth.reqUser?.fullName) {
+  //     navigate("/signup");
+  //   }
+  // }, [auth.reqUser]);
   return (
     <>
       <div className="relative ">
@@ -48,72 +68,74 @@ export default function HomePage() {
         <div className="absolute left-[2vw]  top-[5vh] flex h-[90vh] w-[96vw] bg-[#f0f2f5]">
           <div className="left h-full w-[30%] bg-[#e8e9ec]">
             {/* profile */}
-            {isGroup && <CreateGroup/> }
+            {isGroup && <CreateGroup />}
             {isProfile && (
               <div className="h-full w-full">
                 <Profile handleCloseOpenProfile={handleCloseOpenProfile} />
               </div>
             )}
 
-            {!isProfile &&
-              !isGroup &&(
-                <div className="w-full">
-                  {/* home */}
+            {!isProfile && !isGroup && (
+              <div className="w-full">
+                {/* home */}
 
-                  <div className="flex  items-center justify-between  p-3  ">
-                    <div
-                      onClick={handleNavigate}
-                      className="flex items-center  space-x-3  "
-                    >
-                      <img
-                        className="cursor-pointer” alt= h-10 w-10 rounded-full"
-                        src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGljfGVufDB8fDB8fHww"
-                      />
-                      <p>username</p>
-                    </div>
-                    <div className="flex space-x-3 text-2xl  ">
-                      <TbCircleDashed />
-                      <BiCommentDetail />
-                      <MenuMui handleCreateGroup={handleCreateGroup}/>
-                    </div>
-                  </div>
-
-                  {/* ,,,,,,,,,,,, */}
-                  <div className="relative flex items-center justify-center bg-white  px-3 py-4">
-                    <input
-                      className=" w-[93%]  rounded-md  border-none   bg-slate-200   py-2 pl-9  outline-none   "
-                      type="text"
-                      placeholder="Search or start new chat"
-                      onChange={(e) => {
-                        setQueries(e.target.value);
-                        handleSearch(e.target.value);
-                      }}
-                      value={queries}
+                <div className="flex  items-center justify-between  p-3  ">
+                  <div
+                    onClick={handleNavigate}
+                    className="flex items-center  space-x-3  "
+                  >
+                    <img
+                      className="cursor-pointer” alt= h-10 w-10 rounded-full"
+                      src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGljfGVufDB8fDB8fHww"
                     />
-                    <AiOutlineSearch className="absolute left-5  top-7" />
-                    <div>
-                      <BsFilter className="ml-4 text-3xl" />
-                    </div>
+                    <p>username</p>
                   </div>
-                  {/* all users */}
+                  <div className="flex space-x-3 text-2xl  ">
+                    <TbCircleDashed />
+                    <BiCommentDetail />
+                    <MenuMui
+                      handleCreateGroup={handleCreateGroup}
+                      handleLogout={handleLogout}
+                    />
+                  </div>
+                </div>
 
-                  <div className="h-[72vh] overflow-y-scroll  bg-white px-3 ">
-                    {queries &&
-                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((item, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className=""
-                            onClick={handleClickOnCard}
-                          >
-                            <hr />
-                            <ChatCard />
-                          </div>
-                        );
-                      })}
+                {/* ,,,,,,,,,,,, */}
+                <div className="relative flex items-center justify-center bg-white  px-3 py-4">
+                  <input
+                    className=" w-[93%]  rounded-md  border-none   bg-slate-200   py-2 pl-9  outline-none   "
+                    type="text"
+                    placeholder="Search or start new chat"
+                    onChange={(e) => {
+                      setQueries(e.target.value);
+                      handleSearch(e.target.value);
+                    }}
+                    value={queries}
+                  />
+                  <AiOutlineSearch className="absolute left-5  top-7" />
+                  <div>
+                    <BsFilter className="ml-4 text-3xl" />
                   </div>
-                </div>,
-              )}
+                </div>
+                {/* all users */}
+
+                <div className="h-[72vh] overflow-y-scroll  bg-white px-3 ">
+                  {queries &&
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className=""
+                          onClick={handleClickOnCard}
+                        >
+                          <hr />
+                          <ChatCard />
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            )}
           </div>
           {/* default whats up page */}
 
@@ -198,9 +220,10 @@ export default function HomePage() {
   );
 }
 
-function MenuMui({handleCreateGroup}) {
+function MenuMui({ handleCreateGroup, handleLogout }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -229,7 +252,7 @@ function MenuMui({handleCreateGroup}) {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleCreateGroup}>Create Group</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </div>
   );
