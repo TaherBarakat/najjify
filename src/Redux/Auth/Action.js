@@ -11,7 +11,7 @@ import {
 export const register = (data) => async (dispatch) => {
   try {
     console.log(data);
-    const res = await fetch(`${BASE_API_URL}/auth/register`, {
+    const res = await fetch(`${BASE_API_URL}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

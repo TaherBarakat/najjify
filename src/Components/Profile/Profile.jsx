@@ -3,13 +3,9 @@ import { useState } from "react";
 import { BsArrowLeft, BsCheck2, BsPencil } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
-export default function Profile({ handleCloseOpenProfile }) {
+export default function Profile({ setSidbarNav }) {
   const [flag, setFlag] = useState(false);
   const [username, setUsername] = useState(null);
-  //   const navigate = useNavigate();
-  //   const handleNavigate = () => {
-  //     navigate(-1);
-  //   };
 
   const handleFlag = () => {
     setFlag((prev) => !prev);
@@ -23,7 +19,7 @@ export default function Profile({ handleCloseOpenProfile }) {
     <div className="h-full w-full">
       <div className="flex items-center space-x-10 bg-[#068069] px-10 pb-5 pt-16 text-white">
         <BsArrowLeft
-          onClick={handleCloseOpenProfile}
+          onClick={() => setSidbarNav("chats")}
           className="cursor-pointer text-2xl font-bold"
         />
 
