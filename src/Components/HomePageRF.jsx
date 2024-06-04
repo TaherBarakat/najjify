@@ -15,7 +15,7 @@ export default function HomePage() {
   const [currentChat, setCurrentChat] = useState(null);
   const [sidbarNav, setSidbarNav] = useState("chats");
 
-  const { auth, chat } = useSelector((store) => store);
+  const { auth, chat, message } = useSelector((store) => store);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
 
@@ -63,7 +63,9 @@ export default function HomePage() {
           {/* nav */}
           <div className="w-[30%] ">
             {sidbarNav == "profile" && <Profile setSidbarNav={setSidbarNav} />}
-            {sidbarNav === "group" && <CreateGroup />}
+            {sidbarNav === "group" && (
+              <CreateGroup setSidbarNav={setSidbarNav} />
+            )}
             {sidbarNav == "chats" && (
               <Chats
                 setSidbarNav={setSidbarNav}

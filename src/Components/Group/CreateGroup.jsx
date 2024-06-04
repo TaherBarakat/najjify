@@ -4,25 +4,34 @@ import { useState } from "react";
 import SelectedMembers from "./SelectedMembers";
 import ChatCard from "../ChatCard/ChatCard";
 import NewGroup from "./NewGroup";
+import { useDispatch, useSelector } from "react-redux";
+import { searchUser } from "../../Redux/Auth/Action";
 
-export default function CreateGroup() {
+export default function CreateGroup({ setSidbarNav }) {
   const [newGroup, setNewGroup] = useState(false);
   const [query, setQuery] = useState("");
   const [groupMembers, setGroupMembers] = useState(new Set());
-
+  const { auth } = useSelector((store) => store);
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
   function handleRemoveMember(item) {
     groupMembers.delete(item);
     setGroupMembers(groupMembers);
   }
-  function handleSearch() {}
+  function handleSearch(keyword) {
+    dispatch(searchUser({ keyword: query, token }));
+  }
   return (
     <div className="h-full w-full">
       {!newGroup && (
         <div>
           <div className="flex items-center space-x-10 bg-[#008069] px-10 pb-5 pt-16 text-white">
-            <BsArrowLeft ClassName="cursor-pointer text-2xl font-bold" />
+            <BsArrowLeft
+              onClick={() => setSidbarNav("chats")}
+              ClassName="cursor-pointer text-2xl font-bold"
+            />
 
-            <p className="text-xl font-semibold"> f Add Group Participates</p>
+            <p className="text-xl font-semibold">Add Group Participates</p>
           </div>
           {/* ------------------------------------------------------------------------------------------------------------ */}
           <div className="relative bg-white px-4 py-4">
@@ -50,7 +59,7 @@ export default function CreateGroup() {
           {/* ------------------------------------------------------------------------------------------------------------ */}
           <div className="h-[50.2vh] overflow-y-scroll bg-white ">
             {query &&
-              [1, 1, 1, 1, 1].map((item, i) => (
+              auth.searchUser?.map((item, i) => (
                 <div
                   key={i}
                   onClick={() => {
@@ -60,7 +69,10 @@ export default function CreateGroup() {
                   }}
                 >
                   <hr />
-                  <ChatCard />
+                  <ChatCard
+                    userImg={item.profile_picture}
+                    name={item.full_name}
+                  />
                 </div>
               ))}
           </div>{" "}
@@ -77,7 +89,13 @@ export default function CreateGroup() {
           </div>
         </div>
       )}
-      {newGroup && <NewGroup />}
+      {newGroup && (
+        <NewGroup
+          goBack={setNewGroup}
+          groupMembers={groupMembers}
+          setSidbarNav={setSidbarNav}
+        />
+      )}
     </div>
   );
 }

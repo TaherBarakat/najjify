@@ -30,11 +30,14 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
       <div className="flex   h-[10%] items-center justify-between  p-3  ">
         <div
           onClick={() => setSidbarNav("profile")}
-          className="flex items-center  space-x-3  "
+          className="flex cursor-pointer  items-center  space-x-3"
         >
           <img
-            className="cursor-pointer” alt= h-10 w-10 rounded-full"
-            src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGljfGVufDB8fDB8fHww"
+            className="alt= h-10 w-10 cursor-pointer rounded-full"
+            src={
+              auth.reqUser?.profile_picture ||
+              `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png`
+            }
           />
           <p>username</p>
         </div>

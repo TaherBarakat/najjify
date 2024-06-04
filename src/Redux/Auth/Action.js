@@ -89,15 +89,19 @@ export const searchUser = (data) => async (dispatch) => {
     console.log(error);
   }
 };
-
+// {
+// "fullName": "test name",
+// "profilePicture": "test pic"
+// }
 export const updateUser = (data) => async (dispatch) => {
   try {
     const res = await fetch(`${BASE_API_URL}/users/update${data.id}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${data.token}`,
       },
+      body: JSON.stringify(data.data),
     });
     const resData = await res.json();
     console.log("update", resData);
