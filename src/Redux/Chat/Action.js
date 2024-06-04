@@ -3,7 +3,7 @@ import { CREATE_CHAT, CREATE_GROUP, GET_USERS_CHAT } from "./ActionType";
 
 export const createChat = (chatData) => async (dispatch) => {
   try {
-    const res = await fetch(`${BASE_API_URL}/api/api/chats/single`, {
+    const res = await fetch(`${BASE_API_URL}/api/chats/single`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export const createChat = (chatData) => async (dispatch) => {
 
 export const createGroupChat = (chatData) => async (dispatch) => {
   try {
-    const res = await fetch(`${BASE_API_URL}/api/api/chats/group`, {
+    const res = await fetch(`${BASE_API_URL}/api/chats/group`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,8 +40,10 @@ export const createGroupChat = (chatData) => async (dispatch) => {
 };
 
 export const getUsersChat = (chatData) => async (dispatch) => {
+  console.log('getUsersChat',chatData);
+
   try {
-    const res = await fetch(`${BASE_API_URL}/api/api/chats/user`, {
+    const res = await fetch(`${BASE_API_URL}/api/chats/by-user?userId=${chatData.userId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${chatData.token} `,
@@ -49,7 +51,7 @@ export const getUsersChat = (chatData) => async (dispatch) => {
     });
 
     const data = await res.json();
-    console.log(data);
+    console.log('getUsersChatRes',data);
     dispatch({ type: GET_USERS_CHAT, payload: data });
   } catch (error) {
     console.log(error);

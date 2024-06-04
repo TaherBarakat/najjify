@@ -21,9 +21,11 @@ export const createMessage = (messageData) => async (dispatch) => {
 };
 
 export const getAllMessages = (reqData) => async (dispatch) => {
+  console.log('getAllMessages',reqData);
+
   try {
     const res = await fetch(
-      `${BASE_API_URL}/api/api/message/chat/${reqData.chatId}`,
+      `${BASE_API_URL}/api/chats/${reqData.chatId}`,
       {
         method: "GET",
         headers: {
@@ -34,7 +36,7 @@ export const getAllMessages = (reqData) => async (dispatch) => {
     );
 
     const data = await res.json();
-    console.log(data);
+    console.log('getAllMessagesRes',data);
     dispatch({ type: GET_ALL_MESSAGE, payload: data });
   } catch (error) {
     console.log(error);

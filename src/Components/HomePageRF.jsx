@@ -33,7 +33,8 @@ export default function HomePage() {
   //   };
 
   useEffect(() => {
-    dispatch(getUsersChat({ token }));
+    if(token && auth.reqUser?.id)
+    dispatch(getUsersChat({ token,userId:auth.reqUser?.id }));
   }, [chat.createdGroup, chat.createdChat]);
 
   useEffect(() => {
@@ -50,10 +51,11 @@ export default function HomePage() {
       navigate("/signup");
     }
   }, [auth.reqUser]);
+
   function handleCurrentChat(item) {
     setCurrentChat(item);
   }
-  console.log(auth);
+  console.log('auth',auth.reqUser?.id);
   return (
     <>
       <div className=" relative h-screen w-screen  bg-slate-500 ">

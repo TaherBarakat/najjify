@@ -19,7 +19,8 @@ export default function ChatSection({ currentChat }) {
       }),
     );
   };
-
+  
+console.log(message.messages)
   return (
     <div className=" h-full w-full bg-blue-200 ">
       {/* header */}
@@ -58,8 +59,11 @@ export default function ChatSection({ currentChat }) {
       {/*messages section */}
       <div className=" h-[80%] w-full overflow-y-scroll  px-10 ">
         <div className="mt-20 flex flex-col justify-center space-y-1  py-2 ">
-          {message.messages.length > 0 &&
+          {
+          message.messages.length > 0 &&
             message.messages.map((item, i) => {
+              console.log(item,111111)
+              console.log('hi')
               return (
                 <MessageCard
                   key={item}
@@ -68,6 +72,10 @@ export default function ChatSection({ currentChat }) {
                 />
               );
             })}
+
+{
+          message.messages.length === 0 &&
+         <p>no data</p>  }
         </div>
       </div>
 

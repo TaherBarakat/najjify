@@ -22,7 +22,7 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
     dispatch(logoutAction());
     navigate("/signup");
   };
-console.log(auth)
+console.log(chatsArr)
   return (
     <>
       {/* header */}
@@ -90,27 +90,33 @@ console.log(auth)
               >
                 <hr />
 
-                {item.is_group ? (
-                  <ChatCard name={item.chat_name} userImg={item.chat_image} />
-                ) : (
+                {item.group ? (<>
+                {/* <p>isGroup</p> */}
+                  <ChatCard   name={item.chat_name} userImg={item.chat_image} />
+                </>
+                ) : (<>
+                
+                  {/* <p>isnotGroup</p> */}
+
                   <ChatCard
                     isChat
                     name={
                       auth.reqUser?.id !== item.users[0]?.id
-                        ? item.users[0].full_name
-                        : item.users[1].full_name
-                    }
+                        ? item.users[0].fullName
+                        : item.users[1].fullName
+                      }
                     userImg={
                       auth.reqUser?.id !== item.users[0]?.id
-                        ? item.users[0].profile_picture ||
-                          "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
-                        : item.users[1].profile_picture ||
-                          "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+                      ? item.users[0].profilePicture ||
+                      "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+                      : item.users[1].profilePicture ||
+                      "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
                     }
-                  />
+                    />
+                    </>
                 )}
 
-                <ChatCard chatName={item.chat} item={item} />
+                {/* <ChatCard chatName={item.chat} item={item} /> */}
               </div>
             );
           })}
