@@ -94,8 +94,10 @@ export const searchUser = (data) => async (dispatch) => {
 // "profilePicture": "test pic"
 // }
 export const updateUser = (data) => async (dispatch) => {
+
+  console.log(data)
   try {
-    const res = await fetch(`${BASE_API_URL}/api/users/update${data.id}`, {
+    const res = await fetch(`${BASE_API_URL}/api/users/update`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

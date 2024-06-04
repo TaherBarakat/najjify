@@ -15,10 +15,11 @@ export default function Profile({ setSidbarNav }) {
     setFlag((prev) => !prev);
 
     const updatedData = {
-      id: auth.reqUser?.id,
+      // id: auth.reqUser?.id,
       token: localStorage.getItem("token"),
-      data: { full_name: username },
+     data:{ fullName: username} ,
     };
+
     dispatch(updateUser(updatedData));
   };
 
@@ -40,12 +41,13 @@ export default function Profile({ setSidbarNav }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          setTempPicture(data.usr.toString());
-          console.log(data.url.toString());
+          console.log(tempPicture)
+          setTempPicture(data.url);
+        
           const updatedData = {
-            id: auth.reqUser?.id,
+        
             token: localStorage.getItem("token"),
-            data: { profile_picture: data.url.toString() },
+            data: { profilePicture: data.url },
           };
           dispatch(updateUser(updatedData));
         });
@@ -53,6 +55,8 @@ export default function Profile({ setSidbarNav }) {
       console.log(error);
     }
   }
+  console.log(tempPicture)
+
   return (
     <div className="h-full w-full">
       <div className="flex items-center space-x-10 bg-[#068069] px-10 pb-5 pt-16 text-white">
@@ -71,15 +75,16 @@ export default function Profile({ setSidbarNav }) {
           <img
             className=" h-[15vw] w-[15vw] cursor-pointer rounded-full"
             src={
-              auth.reqUser?.profile_picture ||
               tempPicture ||
+              auth.reqUser?.profilePicture ||
               `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png`
             }
           />
         </label>
 
         <input
-          onChange={(e) => uploadToCloudinary(e.target.files[0])}
+          onChange={(e) => {uploadToCloudinary(e.target.files[0]) 
+            }}
           type="file"
           id="imgInput"
           className="hidden"
@@ -92,7 +97,7 @@ export default function Profile({ setSidbarNav }) {
 
         {!flag && (
           <div className="flex w-full items-center justify-between">
-            <p className="py-3"> {username || "username"} </p>
+            <p className="py-3"> {username || auth.reqUser?.fullName} </p>
             <BsPencil
               onClick={() => setFlag((prev) => !prev)}
               className="cursor-pointer"

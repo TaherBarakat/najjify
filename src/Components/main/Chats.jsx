@@ -22,7 +22,7 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
     dispatch(logoutAction());
     navigate("/signup");
   };
-
+console.log(auth)
   return (
     <>
       {/* header */}
@@ -35,11 +35,11 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
           <img
             className="alt= h-10 w-10 cursor-pointer rounded-full"
             src={
-              auth.reqUser?.profile_picture ||
+              auth.reqUser?.profilePicture ||
               `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png`
             }
           />
-          <p>username</p>
+          <p>{auth.reqUser?.fullName}</p>
         </div>
         <div className="flex space-x-3 text-2xl  ">
           {/* <TbCircleDashed /> */}
