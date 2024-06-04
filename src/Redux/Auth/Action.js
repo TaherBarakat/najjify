@@ -11,7 +11,7 @@ import {
 export const register = (data) => async (dispatch) => {
   try {
     console.log(data);
-    const res = await fetch(`${BASE_API_URL}/auth/signup`, {
+    const res = await fetch(`${BASE_API_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export const login = (data) => async (dispatch) => {
 
 export const currentUser = (token) => async (dispatch) => {
   try {
-    const res = await fetch(`${BASE_API_URL}/users/profile`, {
+    const res = await fetch(`${BASE_API_URL}/api/users/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export const currentUser = (token) => async (dispatch) => {
 export const searchUser = (data) => async (dispatch) => {
   try {
     const res = await fetch(
-      `${BASE_API_URL}/users/search?name=${data.keyWord}`,
+      `${BASE_API_URL}/api/users/search?name=${data.keyWord}`,
       {
         method: "GET",
         headers: {
@@ -95,7 +95,7 @@ export const searchUser = (data) => async (dispatch) => {
 // }
 export const updateUser = (data) => async (dispatch) => {
   try {
-    const res = await fetch(`${BASE_API_URL}/users/update${data.id}`, {
+    const res = await fetch(`${BASE_API_URL}/api/users/update${data.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

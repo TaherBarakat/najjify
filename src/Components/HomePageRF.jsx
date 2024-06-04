@@ -18,7 +18,7 @@ export default function HomePage() {
   const { auth, chat, message } = useSelector((store) => store);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-
+  const navigate=useNavigate()
   const handleClickOnChatCard = (item, userId) => {
     setCurrentChat(true);
     dispatch(createChat({ token, date: userId }));
@@ -45,11 +45,11 @@ export default function HomePage() {
     if (token) dispatch(currentUser(token));
   }, [token]);
 
-  // useEffect(() => {
-  //   if (auth.reqUser?.fullName) {
-  //     navigate("/signup");
-  //   }
-  // }, [auth.reqUser]);
+  useEffect(() => {
+    if (!auth.reqUser?.fullName) {
+      navigate("/signup");
+    }
+  }, [auth.reqUser]);
   function handleCurrentChat(item) {
     setCurrentChat(item);
   }

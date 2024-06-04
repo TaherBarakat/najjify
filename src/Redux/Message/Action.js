@@ -3,7 +3,7 @@ import { CREATE_NEW_MESSAGE, GET_ALL_MESSAGE } from "./ActionType";
 
 export const createMessage = (messageData) => async (dispatch) => {
   try {
-    const res = await fetch(`${BASE_API_URL}/api/message/create`, {
+    const res = await fetch(`${BASE_API_URL}/api/api/message/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const createMessage = (messageData) => async (dispatch) => {
 export const getAllMessages = (reqData) => async (dispatch) => {
   try {
     const res = await fetch(
-      `${BASE_API_URL}/api/message/chat/${reqData.chatId}`,
+      `${BASE_API_URL}/api/api/message/chat/${reqData.chatId}`,
       {
         method: "GET",
         headers: {
