@@ -10,7 +10,11 @@ import ChatSection from "./main/ChatSection";
 import Chats from "./main/Chats";
 import { createChat, getUsersChat } from "../Redux/Chat/Action";
 import { getAllMessages } from "../Redux/Message/Action";
-
+//
+import SockJS from "sockjs-client/dist/sockjs";
+import { over } from "stompjs";
+import { BASE_API_URL } from "../config/api";
+//
 export default function HomePage() {
   const [currentChat, setCurrentChat] = useState(null);
   const [sidbarNav, setSidbarNav] = useState("chats");
@@ -18,7 +22,74 @@ export default function HomePage() {
   const { auth, chat, message } = useSelector((store) => store);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+
+  // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+  const [stompClient, setStompClient] = useState();
+  const [isConnected, setIsConnected] = useState(false);
+  const [messages, setMessages] = useState([]);
+
+  function connect() {
+    const sock = new SockJS("http://localhost:8080/ws");
+    const temp = over(sock);
+    setStompClient(temp);
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
+    };
+
+    temp.connect(headers, onConnect, onError);
+  }
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop().split(";").shift();
+    }
+  }
+  function onError(error) {
+    console.log("on error", error);
+  }
+  function onConnect() {
+    setIsConnected(true);
+    console.log("connect");
+  }
+  function onReceiveMessage(payload) {
+    console.log("message received", JSON.parse(payload.body));
+    const receivedMessage = JSON.parse(payload.body);
+    setMessages([...messages, receivedMessage]);
+  }
+  useEffect(() => {
+    if (isConnected && stompClient && auth.reqUser && currentChat) {
+      const subscription = stompClient.subscribe(
+        "/group/",
+        currentChat.id.toString,
+        onReceiveMessage,
+      );
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    }
+  });
+
+  useEffect(() => {
+    if (message.newMessage && stompClient) {
+      setMessages([...messages, message.newMessage]);
+      stompClient?.send("/app/message", {}, JSON.stringify(message.newMessage));
+    }
+  }, [message.newMessage]);
+
+  useEffect(() => {
+    connect();
+  }, []);
+
+  useEffect(() => {
+    setMessages(message.messages);
+  }, [message.messages]);
+  // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+
   const handleClickOnChatCard = (item, userId) => {
     setCurrentChat(true);
     dispatch(createChat({ token, date: userId }));
@@ -33,8 +104,8 @@ export default function HomePage() {
   //   };
 
   useEffect(() => {
-    if(token && auth.reqUser?.id)
-    dispatch(getUsersChat({ token,userId:auth.reqUser?.id }));
+    if (token && auth.reqUser?.id)
+      dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
   }, [chat.createdGroup, chat.createdChat]);
 
   useEffect(() => {
@@ -55,7 +126,7 @@ export default function HomePage() {
   function handleCurrentChat(item) {
     setCurrentChat(item);
   }
-  console.log('auth',auth.reqUser?.id);
+  console.log("auth", auth.reqUser?.id);
   return (
     <>
       <div className=" relative h-screen w-screen  bg-slate-500 ">

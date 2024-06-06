@@ -40,18 +40,21 @@ export const createGroupChat = (chatData) => async (dispatch) => {
 };
 
 export const getUsersChat = (chatData) => async (dispatch) => {
-  console.log('getUsersChat',chatData);
+  console.log("getUsersChat", chatData);
 
   try {
-    const res = await fetch(`${BASE_API_URL}/api/chats/by-user?userId=${chatData.userId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${chatData.token} `,
+    const res = await fetch(
+      `${BASE_API_URL}/api/chats/by-user?userId=${chatData.userId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${chatData.token} `,
+        },
       },
-    });
+    );
 
     const data = await res.json();
-    console.log('getUsersChatRes',data);
+    console.log("getUsersChatRes", data);
     dispatch({ type: GET_USERS_CHAT, payload: data });
   } catch (error) {
     console.log(error);
