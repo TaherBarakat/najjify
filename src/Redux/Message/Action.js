@@ -3,6 +3,8 @@ import { CREATE_NEW_MESSAGE, GET_ALL_MESSAGE } from "./ActionType";
 
 export const createMessage = (messageData) => async (dispatch) => {
   try {
+    console.log("createMessage", messageData);
+
     const res = await fetch(`${BASE_API_URL}/api/message/create`, {
       method: "POST",
       headers: {
@@ -13,7 +15,7 @@ export const createMessage = (messageData) => async (dispatch) => {
     });
 
     const data = await res.json();
-    console.log(data);
+    console.log("createMessageRes", data);
     dispatch({ type: CREATE_NEW_MESSAGE, payload: data });
   } catch (error) {
     console.log(error);

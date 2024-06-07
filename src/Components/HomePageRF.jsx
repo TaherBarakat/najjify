@@ -126,7 +126,7 @@ export default function HomePage() {
   function handleCurrentChat(item) {
     setCurrentChat(item);
   }
-  console.log("auth", auth.reqUser?.id);
+  // console.log("auth", auth.reqUser?.id);
   return (
     <>
       <div className=" relative h-screen w-screen  bg-slate-500 ">

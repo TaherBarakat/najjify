@@ -41,7 +41,6 @@ export default function Profile({ setSidbarNav }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(tempPicture)
           setTempPicture(data.url);
         
           const updatedData = {
@@ -55,7 +54,6 @@ export default function Profile({ setSidbarNav }) {
       console.log(error);
     }
   }
-  console.log(tempPicture)
 
   return (
     <div className="h-full w-full">
