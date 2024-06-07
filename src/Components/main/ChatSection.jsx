@@ -3,7 +3,7 @@ import { BsSend, BsThreeDotsVertical } from "react-icons/bs";
 import MessageCard from "../MessageCard/MessageCard";
 import { useDispatch, useSelector } from "react-redux";
 import { createMessage } from "../../Redux/Message/Action";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 export default function ChatSection({ currentChat }) {
   const [content, setContent] = useState("");
@@ -12,15 +12,21 @@ export default function ChatSection({ currentChat }) {
   const token = localStorage.getItem("token");
 
   const handleCreateNewMessage = () => {
+    console.log('send')
     dispatch(
       createMessage({
         token,
-        data: { chatId: currentChat.id, content: content },
+        data: { chatId: currentChat.id,userId:auth.reqUser?.id, content: content },
       }),
     );
   };
   
-console.log(message.messages)
+  useEffect((
+
+    
+  )=>{console.table(message.messages)
+    console.log('currentChat',currentChat)},[message,currentChat])
+
   return (
     <div className=" h-full w-full bg-blue-200 ">
       {/* header */}
@@ -30,29 +36,31 @@ console.log(message.messages)
             <img
               className="h-10 w-10 rounded-full"
               src={
-                currentChat.is_Group
-                  ? currentChat.chat_image ||
+                currentChat.group
+                  ? currentChat.chatImage ||
                     "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
                   : auth.reqUser?.id !== currentChat.users[0]?.id
-                    ? currentChat.users[0].profile_picture ||
+                    ? currentChat.users[0].profilePicture
+                    ||
                       "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
-                    : currentChat.users[1].profile_picture ||
+                    : currentChat.users[1].profilePicture
+                    ||
                       "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
               }
               alt=""
             />
             <p>
               {currentChat.is_Group
-                ? currentChat.chat_name
+                ? currentChat.chatName
                 : auth.reqUser?.id === currentChat.users[0].id
-                  ? currentChat.users[1].full_name
-                  : currentChat.users[0].full_name}
+                  ? currentChat.users[1].fullName
+                  : currentChat.users[0].fullName}
             </p>
           </div>
-          <div className="flex items-center space-x-4 px-3 py-3 ">
+          {/* <div className="flex items-center space-x-4 px-3 py-3 ">
             <AiOutlineSearch />
             <BsThreeDotsVertical />
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -62,12 +70,11 @@ console.log(message.messages)
           {
           message.messages.length > 0 &&
             message.messages.map((item, i) => {
-              console.log(item,111111)
-              console.log('hi')
+            
               return (
                 <MessageCard
-                  key={item}
-                  isReqUserMessage={auth.reqUser.id !== item.user.id}
+                  key={i}
+                  isReqUserMessage={auth.reqUser?.id !== item.userId}
                   content={item.content}
                 />
               );
@@ -96,7 +103,9 @@ console.log(message.messages)
             }
           }}
         />
-        <BsSend />
+        <BsSend onClick={()=>{handleCreateNewMessage();               
+
+              setContent("");}} />
       </div>
     </div>
   );

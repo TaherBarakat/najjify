@@ -5,7 +5,7 @@ export const createMessage = (messageData) => async (dispatch) => {
   try {
     console.log("createMessage", messageData);
 
-    const res = await fetch(`${BASE_API_URL}/api/message/create`, {
+    const res = await fetch(`${BASE_API_URL}/api/messages/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const getAllMessages = (reqData) => async (dispatch) => {
   console.log("getAllMessages", reqData);
 
   try {
-    const res = await fetch(`${BASE_API_URL}/api/chats/${reqData.chatId}`, {
+    const res = await fetch(`${BASE_API_URL}/api/messages/chat/${reqData.chatId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

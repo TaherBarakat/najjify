@@ -111,7 +111,7 @@ export default function HomePage() {
   useEffect(() => {
     if (currentChat?.id)
       dispatch(getAllMessages({ chatId: currentChat.id, token }));
-  }, [currentChat, message.newMessage]);
+  }, [currentChat, message.newMessage,message.newMessages]);
 
   useEffect(() => {
     if (token) dispatch(currentUser(token));
