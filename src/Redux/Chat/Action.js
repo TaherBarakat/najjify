@@ -7,7 +7,7 @@ export const createChat = (chatData) => async (dispatch) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${chatData.token} `,
+        Authorization: `  ${chatData.token} `,
       },
       body: JSON.stringify(chatData.data),
     });
@@ -26,7 +26,7 @@ export const createGroupChat = (chatData) => async (dispatch) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${chatData.token} `,
+        Authorization: `  ${chatData.token} `,
       },
       body: JSON.stringify(chatData.group),
     });
@@ -48,7 +48,7 @@ export const getUsersChat = (chatData) => async (dispatch) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${chatData.token} `,
+          Authorization: `${chatData.token} `,
         },
       },
     );

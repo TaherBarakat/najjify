@@ -34,7 +34,7 @@ export default function HomePage() {
     const temp = over(sock);
     setStompClient(temp);
     const headers = {
-      Authorization: `Bearer ${token}`,
+      Authorization: `${token}`,
       "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
     };
 

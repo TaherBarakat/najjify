@@ -59,7 +59,7 @@ export const currentUser = (token) => async (dispatch) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `  ${token}`,
       },
     });
     const resData = await res.json();
@@ -78,7 +78,7 @@ export const searchUser = (data) => async (dispatch) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${data.token}`,
+          Authorization: `  ${data.token}`,
         },
       },
     );
@@ -101,7 +101,7 @@ export const updateUser = (data) => async (dispatch) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${data.token}`,
+        Authorization: `  ${data.token}`,
       },
       body: JSON.stringify(data.data),
     });

@@ -22,7 +22,7 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
     dispatch(logoutAction());
     navigate("/signup");
   };
-console.log(chatsArr)
+console.table(chatsArr)
   return (
     <>
       {/* header */}
@@ -91,8 +91,12 @@ console.log(chatsArr)
                 <hr />
 
                 {item.group ? (<>
-                {/* <p>isGroup</p> */}
-                  <ChatCard   name={item.chat_name} userImg={item.chat_image} />
+                  <ChatCard   name={item.name} userImg={item.image 
+
+
+ ||
+            "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+                  } />
                 </>
                 ) : (<>
                 
@@ -108,9 +112,9 @@ console.log(chatsArr)
                     userImg={
                       auth.reqUser?.id !== item.users[0]?.id
                       ? item.users[0].profilePicture ||
-                      "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                       : item.users[1].profilePicture ||
-                      "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                     }
                     />
                     </>

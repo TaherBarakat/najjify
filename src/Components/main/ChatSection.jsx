@@ -82,7 +82,7 @@ export default function ChatSection({ currentChat }) {
 
 {
           message.messages.length === 0 &&
-         <p>no data</p>  }
+         <p>no messages yet</p>  }
         </div>
       </div>
 

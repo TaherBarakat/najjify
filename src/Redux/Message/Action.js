@@ -9,7 +9,7 @@ export const createMessage = (messageData) => async (dispatch) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${messageData.token} `,
+        Authorization: `  ${messageData.token} `,
       },
       body: JSON.stringify(messageData.data),
     });
@@ -30,7 +30,7 @@ export const getAllMessages = (reqData) => async (dispatch) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${reqData.token} `,
+        Authorization: `  ${reqData.token} `,
       },
     });
 
