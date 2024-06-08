@@ -21,7 +21,6 @@ export default function HomePage() {
 
   const { auth, chat, message } = useSelector((store) => store);
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
@@ -127,6 +126,8 @@ export default function HomePage() {
     setCurrentChat(item);
   }
   // console.log("auth", auth.reqUser?.id);
+  const token = localStorage.getItem("token");
+
   return (
     <>
       <div className=" relative h-screen w-screen  bg-slate-500 ">
