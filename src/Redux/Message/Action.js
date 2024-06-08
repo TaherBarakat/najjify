@@ -5,7 +5,7 @@ export const createMessage = (messageData) => async (dispatch) => {
   try {
     console.log("createMessage", messageData);
 
-    const res = await fetch(`${BASE_API_URL}/api/message/create`, {
+    const res = await fetch(`${BASE_API_URL}/api/messages/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

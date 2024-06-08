@@ -3,7 +3,7 @@ import { BsSend, BsThreeDotsVertical } from "react-icons/bs";
 import MessageCard from "../MessageCard/MessageCard";
 import { useDispatch, useSelector } from "react-redux";
 import { createMessage } from "../../Redux/Message/Action";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ChatSection({ currentChat }) {
   const [content, setContent] = useState("");
@@ -15,12 +15,20 @@ export default function ChatSection({ currentChat }) {
     dispatch(
       createMessage({
         token,
-        data: { chatId: currentChat.id, content: content },
+        data: {
+          chatId: currentChat.id,
+          userId: auth.reqUser?.id,
+          content: content,
+        },
       }),
     );
   };
 
-  console.log(message.messages);
+  useEffect(() => {
+    console.table(message.messages);
+    console.log("currentChat", currentChat);
+  }, [message, currentChat]);
+
   return (
     <div className=" h-full w-full bg-blue-200 ">
       {/* header */}
@@ -34,9 +42,9 @@ export default function ChatSection({ currentChat }) {
                   ? currentChat.image ||
                     "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
                   : auth.reqUser?.id !== currentChat.users[0]?.id
-                    ? currentChat.users[0].profile_picture ||
+                    ? currentChat.users[0].profilePicture ||
                       "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
-                    : currentChat.users[1].profile_picture ||
+                    : currentChat.users[1].profilePicture ||
                       "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
               }
               alt=""
@@ -45,13 +53,13 @@ export default function ChatSection({ currentChat }) {
               {currentChat.group
                 ? currentChat.name
                 : auth.reqUser?.id === currentChat.users[0].id
-                  ? currentChat.users[1].full_name
-                  : currentChat.users[0].full_name}
+                  ? currentChat.users[1].fullName
+                  : currentChat.users[0].fullName}
             </p>
           </div>
           <div className="flex items-center space-x-4 px-3 py-3 ">
-            <AiOutlineSearch />
-            <BsThreeDotsVertical />
+            {/* <AiOutlineSearch />
+            <BsThreeDotsVertical /> */}
           </div>
         </div>
       </div>
