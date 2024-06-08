@@ -17,7 +17,7 @@ export default function Profile({ setSidbarNav }) {
     const updatedData = {
       // id: auth.reqUser?.id,
       token: localStorage.getItem("token"),
-     data:{ fullName: username} ,
+      data: { fullName: username },
     };
 
     dispatch(updateUser(updatedData));
@@ -42,9 +42,8 @@ export default function Profile({ setSidbarNav }) {
         .then((res) => res.json())
         .then((data) => {
           setTempPicture(data.url);
-        
+
           const updatedData = {
-        
             token: localStorage.getItem("token"),
             data: { profilePicture: data.url },
           };
@@ -81,8 +80,9 @@ export default function Profile({ setSidbarNav }) {
         </label>
 
         <input
-          onChange={(e) => {uploadToCloudinary(e.target.files[0]) 
-            }}
+          onChange={(e) => {
+            uploadToCloudinary(e.target.files[0]);
+          }}
           type="file"
           id="imgInput"
           className="hidden"

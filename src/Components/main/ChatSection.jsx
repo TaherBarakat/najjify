@@ -40,17 +40,13 @@ export default function ChatSection({ currentChat }) {
               src={
                 currentChat.group
                   ? currentChat.image ||
-"https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+                    "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
                   : currentChat.image ||
-                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                    
+                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
               }
               alt=""
             />
-            <p>
-              {currentChat.name
-                }
-            </p>
+            <p>{currentChat.name}</p>
           </div>
           <div className="flex items-center space-x-4 px-3 py-3 ">
             {/* <AiOutlineSearch />
@@ -64,12 +60,16 @@ export default function ChatSection({ currentChat }) {
         <div className="mt-5 flex flex-col justify-center space-y-1  py-2 ">
           {message.messages?.length > 0 &&
             message.messages?.map((item, i) => {
-              console.log(11111111111111111111)
+              console.log(11111111111111111111);
               return (
                 <MessageCard
                   key={i}
                   timeStamp={item.timestamp}
-                  messageSenderName={auth.reqUser?.id !==item.userId ? auth.reqUser?.fullName:currentChat.name}
+                  messageSenderName={
+                    auth.reqUser?.id !== item.userId
+                      ? auth.reqUser?.fullName
+                      : currentChat.name
+                  }
                   isReqUserMessage={auth.reqUser?.id == item.userId}
                   content={item.content}
                 />

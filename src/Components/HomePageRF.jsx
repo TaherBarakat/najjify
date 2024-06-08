@@ -18,7 +18,6 @@ import { BASE_API_URL } from "../config/api";
 export default function HomePage() {
   const [currentChat, setCurrentChat] = useState(null);
   const [sidbarNav, setSidbarNav] = useState("chats");
-
   const { auth, chat, message } = useSelector((store) => store);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,7 +41,7 @@ export default function HomePage() {
   // }
 
   // function getCookie(name) {
-    
+
   //   const value = `; ${document.cookie}`;
   //   const parts = value.split(`; ${name}=`);
   //   if (parts.length === 2) {
