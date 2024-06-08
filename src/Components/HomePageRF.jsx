@@ -23,71 +23,72 @@ export default function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
-  const [stompClient, setStompClient] = useState();
-  const [isConnected, setIsConnected] = useState(false);
-  const [messages, setMessages] = useState([]);
+  // // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+  // const [stompClient, setStompClient] = useState();
+  // const [isConnected, setIsConnected] = useState(false);
+  // const [messages, setMessages] = useState([]);
+  const token = localStorage.getItem("token");
 
-  function connect() {
-    const sock = new SockJS("http://localhost:8080/ws");
-    const temp = over(sock);
-    setStompClient(temp);
-    const headers = {
-      Authorization: `${token}`,
-      "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
-    };
+  // function connect() {
+  //   const sock = new SockJS("http://localhost:8080/ws");
+  //   const temp = over(sock);
+  //   setStompClient(temp);
+  //   const headers = {
+  //     Authorization: `${token}`,
+  //     "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
+  //   };
 
-    temp.connect(headers, onConnect, onError);
-  }
+  //   temp.connect(headers, onConnect, onError);
+  // }
 
-  function getCookie(name) {
+  // function getCookie(name) {
     
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      return parts.pop().split(";").shift();
-    }
-  }
-  function onError(error) {
-    console.log("on error", error);
-  }
-  function onConnect() {
-    setIsConnected(true);
-    console.log("connect");
-  }
-  function onReceiveMessage(payload) {
-    console.log("message received", JSON.parse(payload.body));
-    const receivedMessage = JSON.parse(payload.body);
-    setMessages([...messages, receivedMessage]);
-  }
-  useEffect(() => {
-    if (isConnected && stompClient && auth.reqUser && currentChat) {
-      const subscription = stompClient.subscribe(
-        "/group/",
-        currentChat.id.toString,
-        onReceiveMessage,
-      );
+  //   const value = `; ${document.cookie}`;
+  //   const parts = value.split(`; ${name}=`);
+  //   if (parts.length === 2) {
+  //     return parts.pop().split(";").shift();
+  //   }
+  // }
+  // function onError(error) {
+  //   console.log("on error", error);
+  // }
+  // function onConnect() {
+  //   setIsConnected(true);
+  //   console.log("connect");
+  // }
+  // function onReceiveMessage(payload) {
+  //   console.log("message received", JSON.parse(payload.body));
+  //   const receivedMessage = JSON.parse(payload.body);
+  //   setMessages([...messages, receivedMessage]);
+  // }
+  // useEffect(() => {
+  //   if (isConnected && stompClient && auth.reqUser && currentChat) {
+  //     const subscription = stompClient.subscribe(
+  //       "/group/",
+  //       currentChat.id.toString,
+  //       onReceiveMessage,
+  //     );
 
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
-  });
+  //     return () => {
+  //       subscription.unsubscribe();
+  //     };
+  //   }
+  // });
 
-  useEffect(() => {
-    if (message.newMessage && stompClient) {
-      setMessages([...messages, message.newMessage]);
-      stompClient?.send("/app/message", {}, JSON.stringify(message.newMessage));
-    }
-  }, [message.newMessage]);
+  // useEffect(() => {
+  //   if (message.newMessage && stompClient) {
+  //     setMessages([...messages, message.newMessage]);
+  //     stompClient?.send("/app/message", {}, JSON.stringify(message.newMessage));
+  //   }
+  // }, [message.newMessage]);
 
-  useEffect(() => {
-    connect();
-  }, []);
+  // useEffect(() => {
+  //   connect();
+  // }, []);
 
-  useEffect(() => {
-    setMessages(message.messages);
-  }, [message.messages]);
+  // useEffect(() => {
+  //   setMessages(message.messages);
+  // }, [message.messages]);
   // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 
   const handleClickOnChatCard = (item, userId) => {
@@ -127,7 +128,6 @@ export default function HomePage() {
     setCurrentChat(item);
   }
   // console.log("auth", auth.reqUser?.id);
-  const token = localStorage.getItem("token");
 
   return (
     <>

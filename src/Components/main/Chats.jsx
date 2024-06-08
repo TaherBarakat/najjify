@@ -1,3 +1,5 @@
+import {formatTimestamp} from '../../utils/utils'
+
 import { BsFilter } from "react-icons/bs";
 import MenuMui from "./MenuMui";
 import { BiCommentDetail } from "react-icons/bi";
@@ -85,7 +87,6 @@ console.table(chatsArr)
             return (
               <div
                 key={index}
-                className=""
                 onClick={() => handleCurrentChat(item)}
               >
                 <hr />
@@ -93,29 +94,29 @@ console.table(chatsArr)
                 {item.group ? (<>
                   <ChatCard   name={item.name} userImg={item.image 
 
-
  ||
             "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
-                  } />
+                  }
+                  lastMessageTimeStamp={item.lastMessageTimeStamp}
+                  lastMessage={item.lastMessage} />
                 </>
                 ) : (<>
                 
                   {/* <p>isnotGroup</p> */}
 
                   <ChatCard
-                    isChat
+                    // isChat
                     name={
-                      auth.reqUser?.id !== item.users[0]?.id
-                        ? item.users[0].fullName
-                        : item.users[1].fullName
+                      item.name
                       }
                     userImg={
-                      auth.reqUser?.id !== item.users[0]?.id
-                      ? item.users[0].profilePicture ||
+                      item.image  ||
+
                       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                      : item.users[1].profilePicture ||
-                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      
                     }
+                    lastMessageTimeStamp={formatTimestamp(item.lastMessageTimeStamp)}
+                    lastMessage={item.lastMessage}
                     />
                     </>
                 )}

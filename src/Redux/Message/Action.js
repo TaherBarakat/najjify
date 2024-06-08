@@ -26,7 +26,7 @@ export const getAllMessages = (reqData) => async (dispatch) => {
   console.log("getAllMessages", reqData);
 
   try {
-    const res = await fetch(`${BASE_API_URL}/api/chats/${reqData.chatId}`, {
+    const res = await fetch(`${BASE_API_URL}/api/messages/chat/${reqData.chatId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

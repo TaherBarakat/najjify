@@ -1,3 +1,4 @@
+// import '../../Components/'
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsSend, BsThreeDotsVertical } from "react-icons/bs";
 import MessageCard from "../MessageCard/MessageCard";
@@ -17,7 +18,6 @@ export default function ChatSection({ currentChat }) {
         token,
         data: {
           chatId: currentChat.id,
-          userId: auth.reqUser?.id,
           content: content,
         },
       }),
@@ -40,21 +40,16 @@ export default function ChatSection({ currentChat }) {
               src={
                 currentChat.group
                   ? currentChat.image ||
-                    "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
-                  : auth.reqUser?.id !== currentChat.users[0]?.id
-                    ? currentChat.users[0].profilePicture ||
-                      "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
-                    : currentChat.users[1].profilePicture ||
-                      "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+"https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+                  : currentChat.image ||
+                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                    
               }
               alt=""
             />
             <p>
-              {currentChat.group
-                ? currentChat.name
-                : auth.reqUser?.id === currentChat.users[0].id
-                  ? currentChat.users[1].fullName
-                  : currentChat.users[0].fullName}
+              {currentChat.name
+                }
             </p>
           </div>
           <div className="flex items-center space-x-4 px-3 py-3 ">
@@ -65,24 +60,23 @@ export default function ChatSection({ currentChat }) {
       </div>
 
       {/*messages section */}
-      <div className=" h-[80%] w-full overflow-y-scroll  px-10 ">
-        <div className="mt-20 flex flex-col justify-center space-y-1  py-2 ">
-          {message.messages.length > 0 &&
-            message.messages.map((item, i) => {
-              // console.log(item,111111)
-              // console.log('hi')
+      <div className="chatbg h-[80%] w-full overflow-y-scroll  px-7 ">
+        <div className="mt-5 flex flex-col justify-center space-y-1  py-2 ">
+          {message.messages?.length > 0 &&
+            message.messages?.map((item, i) => {
+              console.log(11111111111111111111)
               return (
                 <MessageCard
-                  timeStamp={item.timestamp}
-                  messageSenderName={item.userName}
                   key={i}
-                  isReqUserMessage={auth.reqUser?.id !== item.userId}
+                  timeStamp={item.timestamp}
+                  messageSenderName={auth.reqUser?.id !==item.userId ? auth.reqUser?.fullName:currentChat.name}
+                  isReqUserMessage={auth.reqUser?.id == item.userId}
                   content={item.content}
                 />
               );
             })}
 
-          {message.messages.length === 0 && <p>no messages yet</p>}
+          {message.messages?.length === 0 && <p>no messages yet</p>}
         </div>
       </div>
 
