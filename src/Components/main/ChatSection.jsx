@@ -30,13 +30,8 @@ export default function ChatSection({ currentChat }) {
             <img
               className="h-10 w-10 rounded-full"
               src={
-<<<<<<< HEAD
                 currentChat.group
                   ? currentChat.image ||
-=======
-                currentChat.is_Group
-                  ? currentChat.chat_image ||
->>>>>>> a0ae7f8484cec3db50a0f7f98816909f0935dc9b
                     "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
                   : auth.reqUser?.id !== currentChat.users[0]?.id
                     ? currentChat.users[0].profile_picture ||
@@ -47,13 +42,8 @@ export default function ChatSection({ currentChat }) {
               alt=""
             />
             <p>
-<<<<<<< HEAD
               {currentChat.group
                 ? currentChat.name
-=======
-              {currentChat.is_Group
-                ? currentChat.chat_name
->>>>>>> a0ae7f8484cec3db50a0f7f98816909f0935dc9b
                 : auth.reqUser?.id === currentChat.users[0].id
                   ? currentChat.users[1].full_name
                   : currentChat.users[0].full_name}
@@ -75,28 +65,16 @@ export default function ChatSection({ currentChat }) {
               // console.log('hi')
               return (
                 <MessageCard
-<<<<<<< HEAD
-
-                timeStamp={item.timestamp}
-                messageSenderName={item.userName}
+                  timeStamp={item.timestamp}
+                  messageSenderName={item.userName}
                   key={i}
                   isReqUserMessage={auth.reqUser?.id !== item.userId}
-=======
-                  key={item}
-                  isReqUserMessage={auth.reqUser.id !== item.user.id}
->>>>>>> a0ae7f8484cec3db50a0f7f98816909f0935dc9b
                   content={item.content}
                 />
               );
             })}
 
-<<<<<<< HEAD
-{
-          message.messages.length === 0 &&
-         <p>no messages yet</p>  }
-=======
-          {message.messages.length === 0 && <p>no data</p>}
->>>>>>> a0ae7f8484cec3db50a0f7f98816909f0935dc9b
+          {message.messages.length === 0 && <p>no messages yet</p>}
         </div>
       </div>
 
