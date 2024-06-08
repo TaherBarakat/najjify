@@ -37,7 +37,7 @@ export default function ChatSection({ currentChat }) {
               className="h-10 w-10 rounded-full"
               src={
                 currentChat.group
-                  ? currentChat.chatImage ||
+                  ? currentChat.image ||
                     "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
                   : auth.reqUser?.id !== currentChat.users[0]?.id
                     ? currentChat.users[0].profilePicture
@@ -50,8 +50,8 @@ export default function ChatSection({ currentChat }) {
               alt=""
             />
             <p>
-              {currentChat.is_Group
-                ? currentChat.chatName
+              {currentChat.group
+                ? currentChat.name
                 : auth.reqUser?.id === currentChat.users[0].id
                   ? currentChat.users[1].fullName
                   : currentChat.users[0].fullName}
@@ -73,6 +73,9 @@ export default function ChatSection({ currentChat }) {
             
               return (
                 <MessageCard
+
+                timeStamp={item.timestamp}
+                messageSenderName={item.userName}
                   key={i}
                   isReqUserMessage={auth.reqUser?.id !== item.userId}
                   content={item.content}
