@@ -1,5 +1,4 @@
-import {formatTimestamp} from '../../utils/utils'
-
+import { print } from "../../utils/print";
 import { BsFilter } from "react-icons/bs";
 import MenuMui from "./MenuMui";
 import { BiCommentDetail } from "react-icons/bi";
@@ -10,11 +9,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
+  const [queries, setQueries] = useState("");
   const { auth } = useSelector((store) => store);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const [queries, setQueries] = useState("");
 
   const handleSearch = (keyword) => {
     dispatch(searchUser({ keyword, token }));
@@ -24,7 +23,8 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
     dispatch(logoutAction());
     navigate("/signup");
   };
-console.table(chatsArr)
+  print.comp("Chats");
+
   return (
     <>
       {/* header */}
@@ -70,58 +70,28 @@ console.table(chatsArr)
         {queries &&
           auth.searchUser?.map((item, index) => {
             return (
-              <div key={index} onClick={() => handleCurrentChat(item)}>
-                <hr />
-                <ChatCard
-                  name={item.full_name}
-                  userImg={item.profile_picture}
-                />
-              </div>
+              <ChatCard
+                key={index}
+                onClick={() => handleCurrentChat(item)}
+                name={item.full_name}
+                userImg={item.profile_picture}
+              />
             );
           })}
 
         {/* ---------------------------------------------- */}
         {chatsArr?.length > 0 &&
           queries == "" &&
-          chatsArr?.map((item, index) => {
+          chatsArr?.map((chat, index) => {
             return (
               <div
+                className="h-[15%]"
                 key={index}
-                onClick={() => handleCurrentChat(item)}
+                onClick={() => handleCurrentChat(chat)}
               >
-                <hr />
+                <div className="h-[1px] bg-slate-200 "></div>
 
-                {item.group ? (<>
-                  <ChatCard   name={item.name} userImg={item.image 
-
- ||
-            "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
-                  }
-                  lastMessageTimeStamp={item.lastMessageTimeStamp}
-                  lastMessage={item.lastMessage} />
-                </>
-                ) : (<>
-                
-                  {/* <p>isnotGroup</p> */}
-
-                  <ChatCard
-                    // isChat
-                    name={
-                      item.name
-                      }
-                    userImg={
-                      item.image  ||
-
-                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                      
-                    }
-                    lastMessageTimeStamp={formatTimestamp(item.lastMessageTimeStamp)}
-                    lastMessage={item.lastMessage}
-                    />
-                    </>
-                )}
-
-                {/* <ChatCard chatName={item.chat} item={item} /> */}
+                <ChatCard chat={chat} />
               </div>
             );
           })}

@@ -4,3 +4,6 @@
 ::-webkit-scrollbar-thumb {
   color: gray;
 }
+.chatbg {
+  background-image: url("../assets/chatpg.jpg");
+}

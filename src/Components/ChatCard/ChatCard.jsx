@@ -1,32 +1,34 @@
 import React from "react";
-
-export default function ChatCard({ userImg, name,lastMessageTimeStamp,lastMessage
-}) {
+import { formatTimestamp } from "../../utils/utils";
+export default function ChatCard({ chat }) {
   return (
-    <div className="group  flex cursor-pointer items-center justify-center   py-2  ">
-      <div className="w-20%">
+    <div className="  flex h-[100%] cursor-pointer items-center justify-center  py-2  ">
+      <div className="flex w-[20%] items-center justify-center">
         <img
           className="h-14 w-14 rounded-full "
           src={
-            userImg ||
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            chat.group
+              ? chat.image ||
+                "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"
+              : chat.image ||
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
           }
           alt="profile picture"
         />
       </div>
-      <div className="w-[80%] pl-9 ">
-        <div className="flex items-center justify-between">
-          <p className="text-lg">{name}</p>
-          <p className="text-sm">{lastMessageTimeStamp
-          }</p>
+      <div className=" w-[80%] flex-col  items-center justify-center pl-5">
+        <div className=" flex  h-[50%] w-full items-center justify-between">
+          <p className="text-lg">{chat.name}</p>
+          <p className="text-sm">
+            {formatTimestamp(chat.lastMessageTimeStamp).includes("NaN")
+              ? ""
+              : formatTimestamp(chat.lastMessageTimeStamp)}
+          </p>
         </div>
-        <div className="flex items-center justify-between">
-          <p>{lastMessage}</p>
-          <div className="flex items-center space-x-2 ">
-            <p className="rounded-full  bg-green-500 px-2 py-1 text-xs text-white ">
-              5
-            </p>
-          </div>
+        <div className="flex h-[50%] w-full items-center justify-between overflow-hidden">
+          <p className="h-full w-full truncate">
+            {chat.lastMessage ? chat.lastMessage : "No messages yet ..."}
+          </p>
         </div>
       </div>
     </div>

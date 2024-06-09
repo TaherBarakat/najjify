@@ -63,7 +63,7 @@ export const currentUser = (token) => async (dispatch) => {
       },
     });
     const resData = await res.json();
-    console.log("register", resData);
+    console.log("currentUserRes", resData);
     dispatch({ type: REQ_USER, payload: resData });
   } catch (error) {
     console.log(error);
@@ -94,8 +94,7 @@ export const searchUser = (data) => async (dispatch) => {
 // "profilePicture": "test pic"
 // }
 export const updateUser = (data) => async (dispatch) => {
-
-  console.log(data)
+  console.log(data);
   try {
     const res = await fetch(`${BASE_API_URL}/api/users/update`, {
       method: "PUT",

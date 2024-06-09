@@ -1,5 +1,5 @@
 import "./HomePage.css";
-
+import { print } from "../utils/print";
 import { useEffect, useState } from "react";
 import CreateGroup from "./Group/CreateGroup";
 import Profile from "./Profile/Profile";
@@ -102,31 +102,43 @@ export default function HomePage() {
   //   const handleCreateChat = (userId) => {
   //     //   dispatch(createChat(userId));
   //   };
+  // get the chats for the current user when ever he created a new chat or a new chat
 
   useEffect(() => {
+    print.effect(
+      "get the chats for the current user when ever he created a new chat or a new chat",
+    );
     if (token && auth.reqUser?.id)
       dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
-  }, [chat.createdGroup, chat.createdChat]);
+  }, [chat.createdGroup, chat.createdChat, message.newMessage]);
 
+  // get the messages for the current chat after clicking on chat card
   useEffect(() => {
+    print.effect(
+      "get the messages for the current chat after clicking on chat card",
+    );
+
     if (currentChat?.id)
       dispatch(getAllMessages({ chatId: currentChat.id, token }));
   }, [currentChat, message.newMessage]);
 
+  // get the current user
   useEffect(() => {
+    print.effect("get the current user");
+    console.log(auth);
     if (token) dispatch(currentUser(token));
-  }, [token]);
+  }, [token, auth.updatedUser]);
 
+  // dedicate if the user is not logged in yet
   useEffect(() => {
+    print.effect("dedicate if the user is not logged in yet");
+
     if (!auth.reqUser?.fullName) {
       navigate("/signup");
     }
   }, [auth.reqUser]);
 
-  function handleCurrentChat(item) {
-    setCurrentChat(item);
-  }
-  // console.log("auth", auth.reqUser?.id);
+  print.comp("HomePageRf");
 
   return (
     <>
@@ -135,7 +147,7 @@ export default function HomePage() {
         <div className="h-[85vh] bg-[#e8e9ec]"></div>
         <div className="absolute right-0 top-0 mx-[2.5vw] my-[2.5vh]  flex h-[95vh] w-[95vw] bg-[#f0f2f5]">
           {/* nav */}
-          <div className="w-[30%] ">
+          <div className="w-[25%] ">
             {sidbarNav == "profile" && <Profile setSidbarNav={setSidbarNav} />}
             {sidbarNav === "group" && (
               <CreateGroup setSidbarNav={setSidbarNav} />
@@ -143,7 +155,7 @@ export default function HomePage() {
             {sidbarNav == "chats" && (
               <Chats
                 setSidbarNav={setSidbarNav}
-                handleCurrentChat={handleCurrentChat}
+                handleCurrentChat={setCurrentChat}
                 //     queries={queries}
                 //     handleSearch={handleSearch}
                 //     setQueries={setQueries}
@@ -153,7 +165,7 @@ export default function HomePage() {
             )}
           </div>
           {/* main */}
-          <div className="w-[70%] bg-green-700 ">
+          <div className="w-[75%] bg-green-700 ">
             {currentChat ? (
               <ChatSection currentChat={currentChat} />
             ) : (

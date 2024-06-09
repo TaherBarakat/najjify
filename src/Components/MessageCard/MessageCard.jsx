@@ -5,8 +5,6 @@ export default function MessageCard({
   timeStamp,
   messageSenderName,
 }) {
-  console.log(11111111111111111111111111111111, formatTimestamp);
-
   return (
     <div
       className={` flex max-w-[50%] flex-col  rounded-lg px-2 py-2 ${isReqUserMessage ? "self-start bg-white  " : "self-end bg-[#d9fdd3]"}`}

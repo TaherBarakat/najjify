@@ -1,17 +1,30 @@
-// import '../../Components/'
+import "../../Components/HomePage.css";
+
+import { print } from "../../utils/print";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsSend, BsThreeDotsVertical } from "react-icons/bs";
 import MessageCard from "../MessageCard/MessageCard";
 import { useDispatch, useSelector } from "react-redux";
 import { createMessage } from "../../Redux/Message/Action";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ChatSection({ currentChat }) {
   const [content, setContent] = useState("");
   const { auth, message } = useSelector((store) => store);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+  // to always scroll to bottom
 
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [message.messages]);
+  //
   const handleCreateNewMessage = () => {
     dispatch(
       createMessage({
@@ -29,8 +42,10 @@ export default function ChatSection({ currentChat }) {
     console.log("currentChat", currentChat);
   }, [message, currentChat]);
 
+  print.comp("ChatSection");
+
   return (
-    <div className=" h-full w-full bg-blue-200 ">
+    <div className=" h-full w-full bg-white ">
       {/* header */}
       <div className="h-[10%] w-full bg-[#fef2fs]">
         <div className="flex justify-between">
@@ -44,7 +59,7 @@ export default function ChatSection({ currentChat }) {
                   : currentChat.image ||
                     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
               }
-              alt=""
+              alt="chat picture"
             />
             <p>{currentChat.name}</p>
           </div>
@@ -60,7 +75,6 @@ export default function ChatSection({ currentChat }) {
         <div className="mt-5 flex flex-col justify-center space-y-1  py-2 ">
           {message.messages?.length > 0 &&
             message.messages?.map((item, i) => {
-              console.log(11111111111111111111);
               return (
                 <MessageCard
                   key={i}
@@ -76,8 +90,9 @@ export default function ChatSection({ currentChat }) {
               );
             })}
 
-          {message.messages?.length === 0 && <p>no messages yet</p>}
+          {message.messages?.length === 0 && <h1>no messages yet</h1>}
         </div>
+        <div ref={messagesEndRef} />
       </div>
 
       {/* footer section */}
