@@ -1,4 +1,7 @@
 import "../../Components/HomePage.css";
+import webSocketService from "../../utils/WebSocketService";
+import SockJS from "sockjs-client/dist/sockjs";
+// import { over } from "stompjs";
 
 import { print } from "../../utils/print";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -12,20 +15,33 @@ export default function ChatSection({ currentChat }) {
   const [content, setContent] = useState("");
   const { auth, message } = useSelector((store) => store);
   const dispatch = useDispatch();
+  // --------
+  const [messages, setMessages] = useState([]);
+  const [connected, setConnected] = useState(false);
+
+  // ----------
   const token = localStorage.getItem("token");
+  // to always scroll to bottom
+  // to always scroll to bottom
+  // to always scroll to bottom
+  // to always scroll to bottom
   // to always scroll to bottom
 
   const messagesEndRef = useRef(null);
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
   useEffect(() => {
     scrollToBottom();
   }, [message.messages]);
-  //
+  //---------------------------
+  //---------------------------
+  //---------------------------
+  //---------------------------
+
   const handleCreateNewMessage = () => {
+    webSocketService.send("/app/chat", { chatId: currentChat.id, content });
+    console.log(messages, connected);
     dispatch(
       createMessage({
         token,
@@ -37,13 +53,54 @@ export default function ChatSection({ currentChat }) {
     );
   };
 
+  // useEffect(() => {
+  //   console.table(message.messages);
+  //   console.log("currentChat", currentChat);
+  // }, [message, currentChat]);
+
+  // useEffect(() => {
+  //   // Ensure the URL uses http or https
+  //   const socket = new SockJS("http://localhost:8080/ws");
+
+  //   socket.onopen = () => {
+  //     console.log("Socket is open");
+  //   };
+
+  //   socket.onmessage = (e) => {
+  //     console.log("Message received:", e.data);
+  //   };
+
+  //   socket.onclose = () => {
+  //     console.log("Socket is closed");
+  //   };
+
+  //   return () => {
+  //     socket.close();
+  //   };
+  // }, []);
+  // const sock = new SockJS("http://localhost:8080/ws");
+  // console.log("sockkkkkkkkkkkkk", sock);
+  print.comp("sock");
+
   useEffect(() => {
-    console.table(message.messages);
-    console.log("currentChat", currentChat);
-  }, [message, currentChat]);
+    const token = localStorage.getItem("token");
+    webSocketService.connect({ Authorization: `${token}` }, () => {
+      const subscription = webSocketService.subscribe(
+        `/topic/chat/${currentChat.id}`,
+        (message) => {
+          setMessages((prevMessages) => [...prevMessages, message]);
+        },
+      );
+      setConnected(true);
 
-  print.comp("ChatSection");
-
+      return () => {
+        if (subscription) subscription.unsubscribe();
+        webSocketService.disconnect();
+        setConnected(false);
+      };
+    });
+  }, [currentChat.id]);
+  console.log(messages);
   return (
     <div className=" h-full w-full bg-white ">
       {/* header */}
