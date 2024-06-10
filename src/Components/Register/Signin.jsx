@@ -39,6 +39,8 @@ export default function Signin() {
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
   };
+
+  console.log(auth);
   return (
     <div>
       <div className="flex h-screen items-center justify-center">

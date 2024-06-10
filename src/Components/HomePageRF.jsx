@@ -147,7 +147,7 @@ export default function HomePage() {
         <div className="h-[85vh] bg-[#e8e9ec]"></div>
         <div className="absolute right-0 top-0 mx-[2.5vw] my-[2.5vh]  flex h-[95vh] w-[95vw] bg-[#f0f2f5]">
           {/* nav */}
-          <div className="w-[25%] ">
+          <div className="w-[25%] min-w-[250px]">
             {sidbarNav == "profile" && <Profile setSidbarNav={setSidbarNav} />}
             {sidbarNav === "group" && (
               <CreateGroup setSidbarNav={setSidbarNav} />

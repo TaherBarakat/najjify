@@ -14,7 +14,7 @@ export default function MessageCard({
       >
         {messageSenderName}
       </p>
-      <p className="break-all">{content} </p>
+      <p className="break-words">{content} </p>
       <p
         className={` mt-1 text-[10px] text-neutral-600 ${isReqUserMessage ? " self-end " : "self-start "}	`}
       >

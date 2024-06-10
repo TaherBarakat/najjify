@@ -54,12 +54,13 @@ export const login = (data) => async (dispatch) => {
 };
 
 export const currentUser = (token) => async (dispatch) => {
+  console.log(token);
   try {
     const res = await fetch(`${BASE_API_URL}/api/users/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `  ${token}`,
+        Authorization: `${token}`,
       },
     });
     const resData = await res.json();
