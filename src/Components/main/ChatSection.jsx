@@ -8,8 +8,9 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BsSend, BsThreeDotsVertical } from "react-icons/bs";
 import MessageCard from "../MessageCard/MessageCard";
 import { useDispatch, useSelector } from "react-redux";
-import { createMessage } from "../../Redux/Message/Action";
+import { createMessage, getAllMessages } from "../../Redux/Message/Action";
 import { useEffect, useRef, useState } from "react";
+import { getUsersChat } from "../../Redux/Chat/Action";
 
 export default function ChatSection({ currentChat }) {
   const [content, setContent] = useState("");
@@ -33,7 +34,7 @@ export default function ChatSection({ currentChat }) {
   };
   useEffect(() => {
     scrollToBottom();
-  }, [message.messages]);
+  }, [message.messages, messages]);
   //---------------------------
   //---------------------------
   //---------------------------
@@ -101,6 +102,25 @@ export default function ChatSection({ currentChat }) {
     });
   }, [currentChat.id]);
   console.log(messages);
+
+  useEffect(() => {
+    print.effect(
+      "get the chats for the current user when ever he created a new chat or a new chat",
+    );
+    if (token && auth.reqUser?.id)
+      dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
+  }, [messages]);
+
+  // get the messages for the current chat after clicking on chat card
+  useEffect(() => {
+    print.effect(
+      "get the messages for the current chat after clicking on chat card",
+    );
+
+    if (currentChat?.id)
+      dispatch(getAllMessages({ chatId: currentChat.id, token }));
+  }, [messages]);
+
   return (
     <div className=" h-full w-full bg-white ">
       {/* header */}
