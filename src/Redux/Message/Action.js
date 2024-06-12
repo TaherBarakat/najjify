@@ -3,7 +3,7 @@ import { CREATE_NEW_MESSAGE, GET_ALL_MESSAGE } from "./ActionType";
 
 export const createMessage = (messageData) => async (dispatch) => {
   try {
-    console.log("createMessage", messageData);
+    // console.log("createMessage", messageData);
 
     const res = await fetch(`${BASE_API_URL}/api/messages/send`, {
       method: "POST",
@@ -15,7 +15,7 @@ export const createMessage = (messageData) => async (dispatch) => {
     });
 
     const data = await res.json();
-    console.log("createMessageRes", data);
+    // console.log("createMessageRes", data);
     dispatch({ type: CREATE_NEW_MESSAGE, payload: data });
   } catch (error) {
     console.log(error);
@@ -23,19 +23,22 @@ export const createMessage = (messageData) => async (dispatch) => {
 };
 
 export const getAllMessages = (reqData) => async (dispatch) => {
-  console.log("getAllMessages", reqData);
+  // console.log("getAllMessages", reqData);
 
   try {
-    const res = await fetch(`${BASE_API_URL}/api/messages/chat/${reqData.chatId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `  ${reqData.token} `,
+    const res = await fetch(
+      `${BASE_API_URL}/api/messages/chat/${reqData.chatId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `  ${reqData.token} `,
+        },
       },
-    });
+    );
 
     const data = await res.json();
-    console.log("getAllMessagesRes", data);
+    // console.log("getAllMessagesRes", data);
     dispatch({ type: GET_ALL_MESSAGE, payload: data });
   } catch (error) {
     console.log(error);

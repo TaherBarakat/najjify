@@ -84,7 +84,7 @@ export const searchUser = (data) => async (dispatch) => {
       },
     );
     const resData = await res.json();
-    console.log("register", resData);
+    // console.log("register", resData);
     dispatch({ type: SEARCH_USER, payload: resData });
   } catch (error) {
     console.log(error);

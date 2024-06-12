@@ -89,9 +89,6 @@ export default function ChatSection({ currentChat }) {
         `/topic/chat/${currentChat.id}`,
         (message) => {
           setMessages((prevMessages) => {
-            dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
-            dispatch(getAllMessages({ chatId: currentChat.id, token }));
-
             return [...prevMessages, message];
           });
         },
@@ -99,12 +96,18 @@ export default function ChatSection({ currentChat }) {
       setConnected(true);
 
       return () => {
-        if (subscription) subscription.unsubscribe();
+        // if (subscription)
+        subscription.unsubscribe();
         webSocketService.disconnect();
         setConnected(false);
       };
     });
-  }, [currentChat]);
+  }, [currentChat.id]);
+
+  useEffect(() => {
+    dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
+    dispatch(getAllMessages({ chatId: currentChat.id, token }));
+  }, [messages]);
 
   return (
     <div className=" h-full w-full bg-white ">

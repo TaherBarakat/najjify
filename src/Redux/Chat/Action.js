@@ -40,7 +40,7 @@ export const createGroupChat = (chatData) => async (dispatch) => {
 };
 
 export const getUsersChat = (chatData) => async (dispatch) => {
-  console.log("getUsersChat", chatData);
+  // console.log("getUsersChat", chatData);
 
   try {
     const res = await fetch(
@@ -54,7 +54,7 @@ export const getUsersChat = (chatData) => async (dispatch) => {
     );
 
     const data = await res.json();
-    console.log("getUsersChatRes", data);
+    // console.log("getUsersChatRes", data);
     dispatch({ type: GET_USERS_CHAT, payload: data });
   } catch (error) {
     console.log(error);
