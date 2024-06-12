@@ -32,16 +32,19 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
       <div className="flex   h-[10%] items-center justify-between  p-3  ">
         <div
           onClick={() => setSidbarNav("profile")}
-          className="flex cursor-pointer  items-center  space-x-3"
+          className="flex cursor-pointer  items-center  "
         >
           <img
-            className="alt= h-10 w-10 cursor-pointer rounded-full"
+            alt="profile pic"
+            className=" h-10 w-10 cursor-pointer rounded-full"
             src={
               auth.reqUser?.profilePicture ||
               `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png`
             }
           />
-          <p>{auth.reqUser?.fullName}</p>
+          <p className="px-3  text-[2vw] font-semibold md:px-4  md:text-[1.5vw] ">
+            {auth.reqUser?.fullName}
+          </p>
         </div>
         <div className="flex space-x-3 text-2xl  ">
           {/* <TbCircleDashed /> */}
@@ -53,7 +56,7 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
       {/* search */}
       <div className="flex   h-[10%] items-center justify-center bg-white  px-3 py-4">
         <input
-          className=" w-[90%]  rounded-md  border-none   bg-slate-200   py-2 pl-9  outline-none   "
+          className=" w-[90%]  rounded-md  border-none   bg-slate-200   py-2 pl-3 text-[10px] outline-none md:text-lg   "
           type="text"
           placeholder="Search or start new chat"
           onChange={(e) => {

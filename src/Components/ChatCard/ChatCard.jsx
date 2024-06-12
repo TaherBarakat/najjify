@@ -5,7 +5,7 @@ export default function ChatCard({ chat }) {
     <div className="  flex h-[100%] cursor-pointer items-center justify-center  py-2  ">
       <div className="flex w-[20%] items-center justify-center">
         <img
-          className="h-14 w-14 rounded-full "
+          className="aspect-square rounded-full p-0  md:p-1 "
           src={
             chat.group
               ? chat.image ||
@@ -18,7 +18,7 @@ export default function ChatCard({ chat }) {
       </div>
       <div className=" w-[80%] flex-col  items-center justify-center pl-5">
         <div className=" flex  h-[50%] w-full items-center justify-between">
-          <p className="text-lg">{chat.name}</p>
+          <p className=" text-[2vw] md:text-[1.5vw] ">{chat.name}</p>
           <p className="text-sm">
             {formatTimestamp(chat.lastMessageTimeStamp).includes("NaN")
               ? ""

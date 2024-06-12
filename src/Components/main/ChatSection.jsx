@@ -34,7 +34,7 @@ export default function ChatSection({ currentChat }) {
   };
   useEffect(() => {
     scrollToBottom();
-  }, [message.messages, messages]);
+  }, [message, messages]);
   //---------------------------
   //---------------------------
   //---------------------------
@@ -42,7 +42,6 @@ export default function ChatSection({ currentChat }) {
 
   const handleCreateNewMessage = () => {
     webSocketService.send("/app/chat", { chatId: currentChat.id, content });
-    console.log(messages, connected);
     dispatch(
       createMessage({
         token,
@@ -89,7 +88,12 @@ export default function ChatSection({ currentChat }) {
       const subscription = webSocketService.subscribe(
         `/topic/chat/${currentChat.id}`,
         (message) => {
-          setMessages((prevMessages) => [...prevMessages, message]);
+          setMessages((prevMessages) => {
+            dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
+            dispatch(getAllMessages({ chatId: currentChat.id, token }));
+
+            return [...prevMessages, message];
+          });
         },
       );
       setConnected(true);
@@ -100,26 +104,7 @@ export default function ChatSection({ currentChat }) {
         setConnected(false);
       };
     });
-  }, [currentChat.id]);
-  console.log(messages);
-
-  useEffect(() => {
-    print.effect(
-      "get the chats for the current user when ever he created a new chat or a new chat",
-    );
-    if (token && auth.reqUser?.id)
-      dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
-  }, [messages]);
-
-  // get the messages for the current chat after clicking on chat card
-  useEffect(() => {
-    print.effect(
-      "get the messages for the current chat after clicking on chat card",
-    );
-
-    if (currentChat?.id)
-      dispatch(getAllMessages({ chatId: currentChat.id, token }));
-  }, [messages]);
+  }, [currentChat]);
 
   return (
     <div className=" h-full w-full bg-white ">
@@ -157,11 +142,11 @@ export default function ChatSection({ currentChat }) {
                   key={i}
                   timeStamp={item.timestamp}
                   messageSenderName={
-                    auth.reqUser?.id !== item.userId
+                    auth.reqUser?.id !== item.receiverId
                       ? auth.reqUser?.fullName
                       : currentChat.name
                   }
-                  isReqUserMessage={auth.reqUser?.id == item.userId}
+                  isReqUserMessage={auth.reqUser?.id == item.receiverId}
                   content={item.content}
                 />
               );
