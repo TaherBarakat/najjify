@@ -150,7 +150,13 @@ export default function ChatSection({ currentChat }) {
             }
           }}
         />
-        <BsSend />
+        <BsSend
+          className="cursor-pointer"
+          onClick={() => {
+            handleCreateNewMessage();
+            setContent("");
+          }}
+        />
       </div>
     </div>
   );
