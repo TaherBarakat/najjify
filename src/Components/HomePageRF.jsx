@@ -167,7 +167,7 @@ export default function HomePage() {
           {/* main */}
           <div className="w-[75%] bg-green-700 ">
             {currentChat ? (
-              <ChatSection currentChat={currentChat} />
+              <ChatSection key={currentChat.id} currentChat={currentChat} />
             ) : (
               <LandingPage />
             )}

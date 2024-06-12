@@ -18,15 +18,15 @@ export default function ChatCard({ chat }) {
       </div>
       <div className=" w-[80%] flex-col  items-center justify-center pl-5">
         <div className=" flex  h-[50%] w-full items-center justify-between">
-          <p className=" text-[2vw] md:text-[1.5vw] ">{chat.name}</p>
-          <p className="text-sm">
+          <p className=" text-[1.9vw]  md:text-[1.3vw]">{chat.name}</p>
+          <p className="text-[1.3vw]  text-neutral-500  md:text-sm ">
             {formatTimestamp(chat.lastMessageTimeStamp).includes("NaN")
               ? ""
               : formatTimestamp(chat.lastMessageTimeStamp)}
           </p>
         </div>
         <div className="flex h-[50%] w-full items-center justify-between overflow-hidden">
-          <p className="h-full w-full truncate">
+          <p className="h-full w-full truncate text-[1.5vw] text-neutral-500   md:text-sm">
             {chat.lastMessage ? chat.lastMessage : "No messages yet ..."}
           </p>
         </div>

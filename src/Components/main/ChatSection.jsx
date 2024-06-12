@@ -83,9 +83,10 @@ export default function ChatSection({ currentChat }) {
   print.comp("sock");
 
   useEffect(() => {
+    let subscription = null;
     const token = localStorage.getItem("token");
     webSocketService.connect({ Authorization: `${token}` }, () => {
-      const subscription = webSocketService.subscribe(
+      subscription = webSocketService.subscribe(
         `/topic/chat/${currentChat.id}`,
         (message) => {
           setMessages((prevMessages) => {
@@ -94,15 +95,14 @@ export default function ChatSection({ currentChat }) {
         },
       );
       setConnected(true);
-
-      return () => {
-        // if (subscription)
-        subscription.unsubscribe();
-        webSocketService.disconnect();
-        setConnected(false);
-      };
     });
-  }, [currentChat.id]);
+
+    return () => {
+      if (subscription) subscription.unsubscribe();
+      webSocketService.disconnect();
+      setConnected(false);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
