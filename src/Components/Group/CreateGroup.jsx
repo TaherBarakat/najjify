@@ -25,13 +25,17 @@ export default function CreateGroup({ setSidbarNav }) {
     <div className="h-full w-full">
       {!newGroup && (
         <div>
-          <div className="flex items-center space-x-10 bg-[#008069] px-10 pb-5 pt-16 text-white">
-            <BsArrowLeft
+          <div className="flex items-center justify-around bg-[#008069]   pb-5 pt-16 text-white ">
+            <span
+              className="cursor-pointer text-2xl font-bold "
               onClick={() => setSidbarNav("chats")}
-              ClassName="cursor-pointer text-2xl font-bold"
-            />
+            >
+              <BsArrowLeft />
+            </span>
 
-            <p className="text-xl font-semibold">Add Group Participates</p>
+            <p className="text-xs font-semibold md:text-xl">
+              Add Group Participates
+            </p>
           </div>
           {/* ------------------------------------------------------------------------------------------------------------ */}
           <div className="relative bg-white px-4 py-4">

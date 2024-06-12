@@ -15,7 +15,7 @@ export default function MenuMui({ handleNav, handleLogout }) {
 
   // function handleCreateGroup() {}
   return (
-    <div>
+    <div className="cursor-pointer">
       <BsThreeDotsVertical
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}

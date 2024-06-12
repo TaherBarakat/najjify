@@ -16,7 +16,8 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
   const token = localStorage.getItem("token");
 
   const handleSearch = (keyword) => {
-    dispatch(searchUser({ keyword, token }));
+    console.log(keyword);
+    dispatch(searchUser({ keyword: keyword, token }));
   };
 
   const handleLogout = () => {
@@ -48,7 +49,7 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
         </div>
         <div className="flex space-x-3 text-2xl  ">
           {/* <TbCircleDashed /> */}
-          <BiCommentDetail />
+          {/* <BiCommentDetail /> */}
           <MenuMui handleNav={setSidbarNav} handleLogout={handleLogout} />
         </div>
       </div>
@@ -71,14 +72,13 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
 
       <div className="h-[80%] overflow-y-scroll  bg-white px-3 ">
         {queries &&
-          auth.searchUser?.map((item, index) => {
+          auth.searchUser?.map((user, index) => {
             return (
-              <ChatCard
-                key={index}
-                onClick={() => handleCurrentChat(item)}
-                name={item.full_name}
-                userImg={item.profile_picture}
-              />
+              <div key={index}>
+                <div className="h-[1px] bg-slate-200 "></div>
+
+                <ChatCard chat={user} userCard />
+              </div>
             );
           })}
 

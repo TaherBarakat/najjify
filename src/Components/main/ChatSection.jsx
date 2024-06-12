@@ -105,8 +105,13 @@ export default function ChatSection({ currentChat }) {
   }, []);
 
   useEffect(() => {
-    dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
-    dispatch(getAllMessages({ chatId: currentChat.id, token }));
+    const time = setTimeout(() => {
+      dispatch(getAllMessages({ chatId: currentChat.id, token }));
+      dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
+    }, 100);
+    () => {
+      clearTimeout(time);
+    };
   }, [messages]);
 
   return (
@@ -145,11 +150,17 @@ export default function ChatSection({ currentChat }) {
                   key={i}
                   timeStamp={item.timestamp}
                   messageSenderName={
-                    auth.reqUser?.id !== item.receiverId
-                      ? auth.reqUser?.fullName
-                      : currentChat.name
+                    currentChat.group
+                      ? item.senderName
+                      : auth.reqUser?.id !== item.receiverId
+                        ? auth.reqUser?.fullName
+                        : currentChat.name
                   }
-                  isReqUserMessage={auth.reqUser?.id == item.receiverId}
+                  isReqUserMessage={
+                    currentChat.group
+                      ? auth.reqUser?.id !== item.senderId
+                      : auth.reqUser?.id == item.receiverId
+                  }
                   content={item.content}
                 />
               );
