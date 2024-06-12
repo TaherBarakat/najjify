@@ -7,10 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutAction, searchUser } from "../../Redux/Auth/Action";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createChat } from "../../Redux/Chat/Action";
 
 export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
   const [queries, setQueries] = useState("");
-  const { auth } = useSelector((store) => store);
+  const { auth, chat } = useSelector((store) => store);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -23,6 +24,12 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
   const handleLogout = () => {
     dispatch(logoutAction());
     navigate("/signup");
+  };
+
+  const handleClickOnUserCard = (userId) => {
+    dispatch(createChat({ token, userId: userId }));
+    // handleCurrentChat(chat.createdChat);
+    setQueries("");
   };
   print.comp("Chats");
 
@@ -74,7 +81,7 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
         {queries &&
           auth.searchUser?.map((user, index) => {
             return (
-              <div key={index}>
+              <div key={index} onClick={() => handleClickOnUserCard(user.id)}>
                 <div className="h-[1px] bg-slate-200 "></div>
 
                 <ChatCard chat={user} userCard />

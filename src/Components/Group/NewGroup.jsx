@@ -37,9 +37,11 @@ export default function NewGroup({ goBack, groupMembers, setSidbarNav }) {
       userIds.push(user.id);
     }
     const data = {
-      group: { userIds, chat_name: groupName, chat_image: groupImg },
+      group: { userIds, chatName: groupName, chatImage: groupImg },
       token: localStorage.getItem("token"),
     };
+    console.log("dattestttttttttttt");
+    console.log(data);
     dispatch(createGroupChat(data));
     setSidbarNav("chats");
   }
@@ -57,6 +59,7 @@ export default function NewGroup({ goBack, groupMembers, setSidbarNav }) {
       <div className="my-12 flex flex-col items-center justify-center">
         <label htmlFor="imgInput" className="relative">
           <img
+            className="aspect-square h-[10vw] w-[10vw] rounded-full"
             src={
               groupImg ||
               "https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579__340.png"

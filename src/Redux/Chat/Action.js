@@ -9,7 +9,7 @@ export const createChat = (chatData) => async (dispatch) => {
         "Content-Type": "application/json",
         Authorization: `  ${chatData.token} `,
       },
-      body: JSON.stringify(chatData.data),
+      body: JSON.stringify(chatData.userId),
     });
 
     const data = await res.json();
@@ -21,6 +21,8 @@ export const createChat = (chatData) => async (dispatch) => {
 };
 
 export const createGroupChat = (chatData) => async (dispatch) => {
+  console.log("createGroupChatReq", chatData);
+
   try {
     const res = await fetch(`${BASE_API_URL}/api/chats/group`, {
       method: "POST",
@@ -32,7 +34,7 @@ export const createGroupChat = (chatData) => async (dispatch) => {
     });
 
     const data = await res.json();
-    console.log(data);
+    console.log("createGroupChatRes", data);
     dispatch({ type: CREATE_GROUP, payload: data });
   } catch (error) {
     console.log(error);

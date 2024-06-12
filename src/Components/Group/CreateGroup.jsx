@@ -15,11 +15,14 @@ export default function CreateGroup({ setSidbarNav }) {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   function handleRemoveMember(item) {
-    groupMembers.delete(item);
-    setGroupMembers(groupMembers);
+    setGroupMembers((prevGroupMembers) => {
+      prevGroupMembers.delete(item);
+      return prevGroupMembers;
+    });
+    console.log("braaaaaaaaaaaaaaaaaaaaaa");
   }
   function handleSearch(keyword) {
-    dispatch(searchUser({ keyword: query, token }));
+    dispatch(searchUser({ keyword: keyword, token }));
   }
   return (
     <div className="h-full w-full">
@@ -61,7 +64,7 @@ export default function CreateGroup({ setSidbarNav }) {
             />
           </div>
           {/* ------------------------------------------------------------------------------------------------------------ */}
-          <div className="h-[50.2vh] overflow-y-scroll bg-white ">
+          <div className="h-auto overflow-y-scroll bg-white ">
             {query &&
               auth.searchUser?.map((item, i) => (
                 <div
@@ -73,10 +76,7 @@ export default function CreateGroup({ setSidbarNav }) {
                   }}
                 >
                   <hr />
-                  <ChatCard
-                    userImg={item.profile_picture}
-                    name={item.full_name}
-                  />
+                  <ChatCard chat={item} userCard />
                 </div>
               ))}
           </div>{" "}

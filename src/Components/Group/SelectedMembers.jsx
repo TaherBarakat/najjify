@@ -6,12 +6,12 @@ export default function SelectedMembers({ handleRemoveMember, member }) {
       <img
         className="h-7 w-7 rounded-full"
         src={
-          member.profile_picture ||
+          member.profilePicture ||
           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         }
         alt=""
       />
-      <p className="px-2">{member.full_name}</p>
+      <p className="px-2">{member.fullName}</p>
       <AiOutlineClose
         onClick={handleRemoveMember}
         className="cursor-pointer px-1"

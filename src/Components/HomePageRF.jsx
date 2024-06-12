@@ -90,11 +90,6 @@ export default function HomePage() {
   // }, [message.messages]);
   // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 
-  const handleClickOnChatCard = (item, userId) => {
-    setCurrentChat(true);
-    dispatch(createChat({ token, date: userId }));
-  };
-
   //   const handleCreateNewMessage = () => {
   //     dispatch();
   //   };
