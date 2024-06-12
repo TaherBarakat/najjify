@@ -13,7 +13,6 @@ export default function MenuMui({ handleNav, handleLogout }) {
     setAnchorEl(null);
   };
 
-  // function handleCreateGroup() {}
   return (
     <div className="cursor-pointer">
       <BsThreeDotsVertical

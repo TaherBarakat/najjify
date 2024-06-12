@@ -11,13 +11,12 @@ import { createChat } from "../../Redux/Chat/Action";
 
 export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
   const [queries, setQueries] = useState("");
-  const { auth, chat } = useSelector((store) => store);
+  const { auth } = useSelector((store) => store);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const handleSearch = (keyword) => {
-    console.log(keyword);
     dispatch(searchUser({ keyword: keyword, token }));
   };
 
@@ -28,7 +27,6 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
 
   const handleClickOnUserCard = (userId) => {
     dispatch(createChat({ token, userId: userId }));
-    // handleCurrentChat(chat.createdChat);
     setQueries("");
   };
   print.comp("Chats");
@@ -94,13 +92,8 @@ export default function Chats({ setSidbarNav, handleCurrentChat, chatsArr }) {
           queries == "" &&
           chatsArr?.map((chat, index) => {
             return (
-              <div
-                className="h-[15%]"
-                key={index}
-                onClick={() => handleCurrentChat(chat)}
-              >
+              <div key={index} onClick={() => handleCurrentChat(chat)}>
                 <div className="h-[1px] bg-slate-200 "></div>
-
                 <ChatCard chat={chat} />
               </div>
             );

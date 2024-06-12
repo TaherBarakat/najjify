@@ -4,17 +4,13 @@ import { useEffect, useState } from "react";
 import CreateGroup from "./Group/CreateGroup";
 import Profile from "./Profile/Profile";
 import { useDispatch, useSelector } from "react-redux";
-import { currentUser, logoutAction, searchUser } from "../Redux/Auth/Action";
+import { currentUser } from "../Redux/Auth/Action";
+import { getUsersChat } from "../Redux/Chat/Action";
 import { useNavigate } from "react-router-dom";
 import ChatSection from "./main/ChatSection";
 import Chats from "./main/Chats";
-import { createChat, getUsersChat } from "../Redux/Chat/Action";
 import { getAllMessages } from "../Redux/Message/Action";
-//
-import SockJS from "sockjs-client/dist/sockjs";
-import { over } from "stompjs";
-import { BASE_API_URL } from "../config/api";
-//
+
 export default function HomePage() {
   const [currentChat, setCurrentChat] = useState(null);
   const [sidbarNav, setSidbarNav] = useState("chats");
@@ -22,82 +18,9 @@ export default function HomePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
-  // const [stompClient, setStompClient] = useState();
-  // const [isConnected, setIsConnected] = useState(false);
-  // const [messages, setMessages] = useState([]);
   const token = localStorage.getItem("token");
 
-  // function connect() {
-  //   const sock = new SockJS("http://localhost:8080/ws");
-  //   const temp = over(sock);
-  //   setStompClient(temp);
-  //   const headers = {
-  //     Authorization: `${token}`,
-  //     "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
-  //   };
-
-  //   temp.connect(headers, onConnect, onError);
-  // }
-
-  // function getCookie(name) {
-
-  //   const value = `; ${document.cookie}`;
-  //   const parts = value.split(`; ${name}=`);
-  //   if (parts.length === 2) {
-  //     return parts.pop().split(";").shift();
-  //   }
-  // }
-  // function onError(error) {
-  //   console.log("on error", error);
-  // }
-  // function onConnect() {
-  //   setIsConnected(true);
-  //   console.log("connect");
-  // }
-  // function onReceiveMessage(payload) {
-  //   console.log("message received", JSON.parse(payload.body));
-  //   const receivedMessage = JSON.parse(payload.body);
-  //   setMessages([...messages, receivedMessage]);
-  // }
-  // useEffect(() => {
-  //   if (isConnected && stompClient && auth.reqUser && currentChat) {
-  //     const subscription = stompClient.subscribe(
-  //       "/group/",
-  //       currentChat.id.toString,
-  //       onReceiveMessage,
-  //     );
-
-  //     return () => {
-  //       subscription.unsubscribe();
-  //     };
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   if (message.newMessage && stompClient) {
-  //     setMessages([...messages, message.newMessage]);
-  //     stompClient?.send("/app/message", {}, JSON.stringify(message.newMessage));
-  //   }
-  // }, [message.newMessage]);
-
-  // useEffect(() => {
-  //   connect();
-  // }, []);
-
-  // useEffect(() => {
-  //   setMessages(message.messages);
-  // }, [message.messages]);
-  // sockkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
-
-  //   const handleCreateNewMessage = () => {
-  //     dispatch();
-  //   };
-
-  //   const handleCreateChat = (userId) => {
-  //     //   dispatch(createChat(userId));
-  //   };
-  // get the chats for the current user when ever he created a new chat or a new chat
+  // get the chats for the current user when ever he created a new group or a new chat or receive a new message
 
   useEffect(() => {
     print.effect(
@@ -107,7 +30,7 @@ export default function HomePage() {
       dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
   }, [chat.createdGroup, chat.createdChat, message.newMessage]);
 
-  // get the messages for the current chat after clicking on chat card
+  // get the messages for the current chat after clicking on chat card and setting the current chat por create a new message
   useEffect(() => {
     print.effect(
       "get the messages for the current chat after clicking on chat card",
@@ -117,14 +40,14 @@ export default function HomePage() {
       dispatch(getAllMessages({ chatId: currentChat.id, token }));
   }, [currentChat, message.newMessage]);
 
-  // get the current user
+  // get the current user info when ever the token changes, or the user info updated
   useEffect(() => {
     print.effect("get the current user");
     console.log(auth);
     if (token) dispatch(currentUser(token));
   }, [token, auth.updatedUser]);
 
-  // dedicate if the user is not logged in yet
+  // detect if the user is not logged in yet
   useEffect(() => {
     print.effect("dedicate if the user is not logged in yet");
 
@@ -151,10 +74,6 @@ export default function HomePage() {
               <Chats
                 setSidbarNav={setSidbarNav}
                 handleCurrentChat={setCurrentChat}
-                //     queries={queries}
-                //     handleSearch={handleSearch}
-                //     setQueries={setQueries}
-                //     handleLogout={handleLogout}
                 chatsArr={chat.chats}
               />
             )}

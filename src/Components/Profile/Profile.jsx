@@ -11,11 +11,10 @@ export default function Profile({ setSidbarNav }) {
   const [tempPicture, setTempPicture] = useState(null);
   const { auth } = useSelector((store) => store);
   const dispatch = useDispatch();
+
   const handleUpdateName = () => {
     setFlag((prev) => !prev);
-
     const updatedData = {
-      // id: auth.reqUser?.id,
       token: localStorage.getItem("token"),
       data: { fullName: username },
     };
@@ -27,7 +26,9 @@ export default function Profile({ setSidbarNav }) {
     setUsername(e.target.value);
   };
 
-  // dxq3gmkuw cloud name
+  // upload the picture to a cloud service named cloudinary ,
+  // then wait for the response that contain a pic url for the pic on the cloud
+  // and push it to the local db
   function uploadToCloudinary(pics) {
     try {
       const data = new FormData();
