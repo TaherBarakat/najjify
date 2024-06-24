@@ -2,6 +2,7 @@ import "./HomePage.css";
 import { print } from "../utils/print";
 import { useEffect, useState } from "react";
 import CreateGroup from "./Group/CreateGroup";
+import UpdateGroup from "./Group/UpdateGroup";
 import Profile from "./Profile/Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { currentUser } from "../Redux/Auth/Action";
@@ -28,7 +29,16 @@ export default function HomePage() {
     );
     if (token && auth.reqUser?.id)
       dispatch(getUsersChat({ token, userId: auth.reqUser?.id }));
-  }, [chat.createdGroup, chat.createdChat, message.newMessage]);
+  }, [
+    chat.createdGroup,
+    chat.updateGroup,
+    chat.createdChat,
+    message.newMessage,
+  ]);
+
+  useEffect(() => {
+    setCurrentChat(chat.updateGroup);
+  }, [chat.updateGroup]);
 
   // get the messages for the current chat after clicking on chat card and setting the current chat por create a new message
   useEffect(() => {
@@ -70,6 +80,13 @@ export default function HomePage() {
             {sidbarNav === "group" && (
               <CreateGroup setSidbarNav={setSidbarNav} />
             )}
+            {sidbarNav == "updateGroup" && (
+              <UpdateGroup
+                setSidbarNav={setSidbarNav}
+                currentChat={currentChat}
+              ></UpdateGroup>
+            )}
+
             {sidbarNav == "chats" && (
               <Chats
                 setSidbarNav={setSidbarNav}
@@ -81,7 +98,11 @@ export default function HomePage() {
           {/* main */}
           <div className="w-[75%] bg-green-700 ">
             {currentChat ? (
-              <ChatSection key={currentChat.id} currentChat={currentChat} />
+              <ChatSection
+                key={currentChat.id}
+                currentChat={currentChat}
+                setSidbarNav={setSidbarNav}
+              />
             ) : (
               <LandingPage />
             )}

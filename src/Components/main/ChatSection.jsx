@@ -1,17 +1,18 @@
 import "../../Components/HomePage.css";
 import webSocketService from "../../utils/WebSocketService";
 import SockJS from "sockjs-client/dist/sockjs";
-
+import { BiEdit } from "react-icons/bi";
+import { BiEditAlt } from "react-icons/bi";
 import { print } from "../../utils/print";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BsSend, BsThreeDotsVertical } from "react-icons/bs";
+import { BsSend } from "react-icons/bs";
 import MessageCard from "../MessageCard/MessageCard";
 import { useDispatch, useSelector } from "react-redux";
 import { createMessage, getAllMessages } from "../../Redux/Message/Action";
 import { useEffect, useRef, useState } from "react";
 import { getUsersChat } from "../../Redux/Chat/Action";
 
-export default function ChatSection({ currentChat }) {
+export default function ChatSection({ currentChat, setSidbarNav }) {
   const [content, setContent] = useState("");
   const [messages, setMessages] = useState([]);
   const [connected, setConnected] = useState(false);
@@ -95,9 +96,14 @@ export default function ChatSection({ currentChat }) {
             />
             <p>{currentChat.name}</p>
           </div>
-          <div className="flex items-center space-x-4 px-3 py-3 ">
-            {/* <AiOutlineSearch />
-            <BsThreeDotsVertical /> */}
+          <div className="mr-3 flex cursor-pointer items-center ">
+            {currentChat.group && (
+              <BiEditAlt
+                size={25}
+                onClick={() => setSidbarNav("updateGroup")}
+              />
+            )}
+            {/* <BsThreeDotsVertical />  */}
           </div>
         </div>
       </div>
